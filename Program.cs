@@ -19,6 +19,7 @@ namespace RecorreDir
             if (args.Length == 0)
             {
                 rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
+                rootdir = "/home/janeko/workspace/inst_files";
                 //Console.WriteLine("args is null");
             }
             else
@@ -35,6 +36,7 @@ namespace RecorreDir
             extensiones.Add(".padl");
             extensiones.Add(".pctrl");
             extensiones.Add(".pprj");
+            extensiones.Add(".pgman");
             extensiones.Add(".pcond");
             extensiones.Add(".pe2p");
             extensiones.Add(".pligthc");
@@ -273,7 +275,7 @@ namespace RecorreDir
                         log2.Log($"\t\t\t Comprobando Group Manager");
                     }
                     else
-                        log2.Log($"\t\t\t Fichero Group Manager sin atributo 'scadaview' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                        log2.Log($"\t\t\t Fichero Group Manager sin atributo 'groupmanager' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
                     //checkPGMAN();
                     break;
                 case ".pe2p"://modbus2plastic

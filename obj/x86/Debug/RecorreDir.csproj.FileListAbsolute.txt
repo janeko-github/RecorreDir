@@ -10,3 +10,11 @@
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/RecorreDir.csproj.CopyComplete
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/RecorreDir.exe
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/RecorreDir.pdb
+/home/janeko/workspace/csharp/RecorreDir/bin/Debug/RecorreDir.exe
+/home/janeko/workspace/csharp/RecorreDir/bin/Debug/RecorreDir.pdb
+/home/janeko/workspace/csharp/RecorreDir/bin/Debug/System.Drawing.Common.xml
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/RecorreDir.csproj.AssemblyReference.cache
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/RecorreDir.csproj.CoreCompileInputs.cache
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/RecorreDir.csproj.CopyComplete
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/RecorreDir.exe
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/RecorreDir.pdb

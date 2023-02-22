@@ -83,7 +83,7 @@ namespace RecorreDir
             return true;
 
         }
-        internal static bool Check_File(XmlNode node, string attrb, bool required = true)
+        internal static  bool Check_File(XmlNode node, string attrb, bool required = true)
         {
             if (node.Attributes.GetNamedItem(attrb) == null)
             {

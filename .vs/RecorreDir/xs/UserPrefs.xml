@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{4412FCDF-7190-47DE-96F8-36E6EEC88AE7}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="chkCTRL.cs">
+    <Files>
+      <File FileName="Program.cs" Line="80" Column="38" />
+      <File FileName="SaveLog.cs" Line="13" Column="76" />
+      <File FileName="chkCTRL.cs" Line="86" Column="25" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="RecorreDir" expanded="True">
+            <Node name="RecorreDir" expanded="True">
+              <Node name="chkCTRL.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.RecorreDir PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
