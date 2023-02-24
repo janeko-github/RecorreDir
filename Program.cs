@@ -11,15 +11,18 @@ namespace RecorreDir
     {
         public static string rootdir { get; set; }
 
-        static Save2Log log2;
-        static List<string> extensiones = new List<string>();
+        public static Save2Log log2;
+        public static List<string> extensiones = new List<string>();
+        public static List<string> ficherosProyecto = new List<string>();
+        internal static string cPath;
+        public static short avoidNormalMessages;
         public static void Main(string[] args)
         {
             rootdir = Directory.GetCurrentDirectory();
             if (args.Length == 0)
             {
                 rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
-                rootdir = "/home/janeko/workspace/inst_files";
+                //rootdir = "/home/janeko/workspace/inst_files";
                 //Console.WriteLine("args is null");
             }
             else
@@ -44,7 +47,7 @@ namespace RecorreDir
             extensiones.Add(".scav");
             extensiones.Add(".scag");
             log2 = new Save2Log(rootdir + "/BuscarDirectorios.log");
-
+            avoidNormalMessages = 1;
             //wLog = File.CreateText(rootdir + "/BuscarDirectorios.log");
             Console.Write("Inicio proceso\n");
             SearchDirectory(rootdir, extension_list: extensiones);
@@ -52,14 +55,105 @@ namespace RecorreDir
             log2.CloseLog();
             Console.Write("\n");
             Console.WriteLine("Finalizado proceso.");
+
         }
+        #region Útiles
+        public static string GetTabs(short numtabs=1)
+        {
+            return new String('\t', numtabs);
+        }
+        public static bool Check_Attribute(XmlNode node, string attrb, bool required = false, short nTabs=1,string defaultValue="")
+        {
+            if (node.Attributes.GetNamedItem(attrb) == null)
+            {
+                if (required)
+                {
+                    log2.Log($"{MainClass.GetTabs(nTabs)} el atributo {attrb} No está definido ", 2);
+                    return false;
+                }
+                else
+                    return true;
+            }
+            string value = node.Attributes.GetNamedItem(attrb).Value;
+            if (value != "")
+                log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} = {value} ");
+            else
+               if (required)
+                {
+                    if((defaultValue != "") && (value == ""))
+                        log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} vacia ", 2);
+                    return false;
+                }
+                else
+                    log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} No Necesario ");
+            return true;
+
+        }
+        public static bool Check_File(XmlNode node, string attrb, bool required = true, short nTabs=1)
+        {
+            if (node.Attributes.GetNamedItem(attrb) == null)
+            {
+                if (required)
+                {
+                    log2.Log($"{MainClass.GetTabs(nTabs)} {nTabs} No está definido el fichero ", 2);
+                    return false;
+                }
+                else
+                    return true;
+            }
+            string value = node.Attributes.GetNamedItem(attrb).Value;
+            if (value != "")
+            {
+
+                string fileFullName = $"{cPath}/{value}";
+                if (!File.Exists(fileFullName))
+                {
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe el fichero {value} {fileFullName}", 2);
+                    return false;
+                }
+                else
+                    log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} = {value} ");
+                if (MainClass.ficherosProyecto.Contains(value))
+                {
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe en el Proyecto el fichero {value}  {fileFullName}", 2);
+                };
+            }
+
+            else
+                if (required)
+            {
+                log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} Sin fichero por definir ", 2);
+                return false;
+            }
+            else
+                log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} Fichero No Necesario ");
+            return true;
+
+        }
+        public static void checkExistence(short val2Check = 0, short minimumValue = 0, short maxValue = 1, string nameTag = "")
+        {
+            if (val2Check < minimumValue) { MainClass.log2.Log($"{MainClass.GetTabs(3)} Falta el Tag {nameTag} ", 2); }
+            if (val2Check > maxValue) { MainClass.log2.Log($"{MainClass.GetTabs(3)} Demasiados Tags {nameTag} ", 2); }
+
+        }
+        #endregion Útiles
+        #region Por hacer
+        public void LoadApps()
+        {
+            //TODO GlobalConfig.LoadApps();
+        }
+        #endregion Por hacer
+        #region BuscarFicheros
         internal static void SearchDirectory(string rootdir = @"/home/janeko",  List<string> extension_list = null)
         {
 
             DirectoryInfo dir_info = new DirectoryInfo(rootdir);
             if (dir_info.Name.StartsWith("998"))
             {
+
+
                 Console.Write("d");
+
                 string cPath = dir_info.FullName + "/data";
                 if (Directory.Exists(cPath))
                 {
@@ -102,7 +196,8 @@ namespace RecorreDir
             }
 
         }
-
+        #endregion BuscarFicheros
+        #region Analizar Proyecto
         public static void AnalizeProject(FileInfo fFile)
         {
 
@@ -122,7 +217,7 @@ namespace RecorreDir
             }
             XmlNode rootPlastic = xDoc.FirstChild;
             string cAppAttrb = rootPlastic.Attributes.GetNamedItem("application").InnerText;
-            log2.Log($"Analizando Proyecto '{rootPlastic.Attributes.GetNamedItem("name").InnerText}' en el fichero '{fFile.Name}' sito en '{fFile.DirectoryName}'");
+            log2.Log($"Analizando Proyecto '{rootPlastic.Attributes.GetNamedItem("name").InnerText}' en el fichero '{fFile.Name}' sito en '{fFile.DirectoryName}'",4);
             if (cAppAttrb != "project")
             {
                 log2.Log($" Proyecto sin atributo 'project' en 'plastic.appplication'",1);
@@ -131,16 +226,18 @@ namespace RecorreDir
             if (rootPlastic.HasChildNodes)
             {
                 string fileFullName, fileName;
-                for (int i = 0; i < rootPlastic.ChildNodes.Count - 1; i++)
+                for (Int16 i = 0; i < rootPlastic.ChildNodes.Count - 1; i++)
                 {
                     if (rootPlastic.ChildNodes[i].LocalName == "file")
                     {
                         fileName = rootPlastic.ChildNodes[i].Attributes.GetNamedItem("name").InnerText;
+                        ficherosProyecto.Add(fileName);
+
                         fileFullName = fFile.DirectoryName + "/" + fileName;
                         if (!File.Exists(fileFullName))
                         {
                             fileFullName = fileFullName.Replace(rootdir, "");
-                            log2.Log($"\tFalta el fichero '{fileFullName}' descrito en el proyecto ", 2);
+                            log2.Log($"{MainClass.GetTabs(1)}Falta el fichero '{fileFullName}' descrito en el proyecto ", 2);
                             continue;
                         }
                         else
@@ -152,7 +249,7 @@ namespace RecorreDir
                                 checkProjectFile(fileFullName);
                             }
                             else { 
-                                log2.Log($"\tFichero del proyecto localizado '{fileName}'");
+                                log2.Log($"{MainClass.GetTabs(1)}Fichero del proyecto localizado '{fileName}'");
                                 Image image1;
                                 switch (cExtension)
                                 {
@@ -162,36 +259,36 @@ namespace RecorreDir
                                         {
                                             image1 = Image.FromFile(fileFullName);
                                             if (!image1.RawFormat.Equals(ImageFormat.Png))
-                                                log2.Log($"\t\tEl fichero '{fileName}' no es del tipo png");
+                                                log2.Log($"{MainClass.GetTabs(2)}El fichero '{fileName}' no es del tipo png");
                                             image1.Dispose();
                                         }
                                         catch (Exception ex)
                                         {
-                                            log2.Log($"\t\tEl fichero '{fileName}' excepción {ex.Message}");
+                                            log2.Log($"{MainClass.GetTabs(2)}El fichero '{fileName}' excepción {ex.Message}");
                                         }
                                         */
                                         break;
                                     case ".bmp":
                                         image1 = Image.FromFile(fileFullName);
                                         if (!image1.RawFormat.Equals(ImageFormat.Bmp))
-                                            log2.Log($"\t\tEl fichero '{fileName}' no es del tipo bmp");
+                                            log2.Log($"{MainClass.GetTabs(2)}El fichero '{fileName}' no es del tipo bmp");
                                         image1.Dispose();
                                         break;
                                     case ".gif":
                                         image1 = Image.FromFile(fileFullName);
                                         if (!image1.RawFormat.Equals(ImageFormat.Gif))
-                                            log2.Log($"\t\tEl fichero '{fileName}' no es del tipo gif");
+                                            log2.Log($"{MainClass.GetTabs(2)}El fichero '{fileName}' no es del tipo gif");
                                         image1.Dispose();
                                         break;
                                     case ".jpg":
                                     case ".jpeg":
                                         image1 = Image.FromFile(fileFullName);
                                         if (!image1.RawFormat.Equals(ImageFormat.Jpeg))
-                                            log2.Log($"\t\tEl fichero '{fileName}' no es del tipo Jpeg");
+                                            log2.Log($"{MainClass.GetTabs(2)}El fichero '{fileName}' no es del tipo Jpeg");
                                         image1.Dispose();
                                         break;
                                     default:
-                                        log2.Log($"\t\tEl fichero '{fileName}' no es conocido");
+                                        log2.Log($"{MainClass.GetTabs(2)}El fichero '{fileName}' no es conocido");
                                         break;
                                 }
 
@@ -199,15 +296,16 @@ namespace RecorreDir
                         }
                     }
                     else
-                        log2.Log("\tTag {rootPlastic.ChildNodes[i].LocalName} no correspone a fichero de proyecto ",1);
+                        log2.Log($"{MainClass.GetTabs(1)}Tag {rootPlastic.ChildNodes[i].LocalName} no correspone a fichero de proyecto ",1);
 
 
 
                 }
             } else log2.Log($"Sin files definidos en {cFilePath}", 2);
         }
+        #endregion Analizar Proyecto
         public static void checkProjectFile(string fileFullName) {
-            log2.Log($"\t\tAnalizando '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ");
+            log2.Log($"{MainClass.GetTabs(2)}Analizando '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ",4);
             XmlDocument xDoc = new XmlDocument();
             xDoc.XmlResolver = null;
             try
@@ -216,7 +314,7 @@ namespace RecorreDir
             }
             catch (Exception ex)
             {
-                log2.Log($"\t\t{ex.Message} al abrir '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                log2.Log($"{MainClass.GetTabs(2)}{ex.Message} al abrir '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
                 return;
             }
 
@@ -224,127 +322,129 @@ namespace RecorreDir
             XmlNode rootPlastic = xDoc.FirstChild;
             if (rootPlastic.Name != "plastic")
             {
-                log2.Log($"\t\t No es fichero plastic '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                log2.Log($"{MainClass.GetTabs(2)} No es fichero plastic '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
                 return;
             }
             string typeApplicationPlastic = rootPlastic.Attributes.GetNamedItem("application").InnerText;
 
-
+            cPath = Path.GetFullPath(fileFullName);
             switch (Path.GetExtension(fileFullName))
             {
-
-                case ".padl"://addrlist
-                    if(typeApplicationPlastic == "addrlist")
-                    {
-                        log2.Log($"\t\t\t Comprobando direcciones ");
-                    }
-                    else
-                        log2.Log($"\t\t\t Fichero direcciones sin atributo 'addrlist' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    //checkPADL();
-                    break;
                 case ".pctrl"://modbus2plastic
                     if (typeApplicationPlastic == "controller")
                     {
-                        log2.Log($"\t\t\t Comprobando Plastic Controller");
+                        log2.Log($"{MainClass.GetTabs(3)} Comprobando Plastic Controller");
                     }
                     else
-                        log2.Log($"\t\t\t Fichero Plastic Modbus sin atributo 'controller' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    ChkCTRL.check(rootPlastic, log2, Path.GetFullPath(fileFullName));
-                    break;
-                case ".scav"://scadaview
-                    if (typeApplicationPlastic == "scadaview")
-                    {
-                        log2.Log($"\t\t\t Comprobando vista scada ");
-                    }
-                    else
-                        log2.Log($"\t\t\t Fichero vista scada sin atributo 'scadaview' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    //checkSCAV();
+                        log2.Log($"{MainClass.GetTabs(3)} Fichero Plastic Modbus sin atributo 'controller' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    ChkCTRL.check(rootPlastic);
                     break;
                 case ".scag"://scadaglobal
                     if (typeApplicationPlastic == "scadaglobal")
                     {
-                        log2.Log($"\t\t\t Comprobando scada global");
+                        log2.Log($"{MainClass.GetTabs(3)} Comprobando scada global");
                     }
                     else
-                        log2.Log($"\t\t\t Fichero scada global sin atributo 'scadaview' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    //checkSCAG();
-                    break;
-                case ".pgman"://groupmanager
-                    if (typeApplicationPlastic == "groupmanager")
-                    {
-                        log2.Log($"\t\t\t Comprobando Group Manager");
-                    }
-                    else
-                        log2.Log($"\t\t\t Fichero Group Manager sin atributo 'groupmanager' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    //checkPGMAN();
-                    break;
-                case ".pe2p"://modbus2plastic
-                    if (typeApplicationPlastic == "eib2plastic")
-                    {
-                        log2.Log($"\t\t\t Comprobando Plastic EIB");
-                    }
-                    else
-                        log2.Log($"\t\t\t Fichero Plastic EIB sin atributo 'eib2plastic' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    //checkEIB2P();
+                        log2.Log($"{MainClass.GetTabs(3)} Fichero scada global sin atributo 'scadaglobal' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    ChkSCAG.check(rootPlastic);
                     break;
                 case ".mo2p"://modbus2plastic
                     if (typeApplicationPlastic == "modbus2plastic")
                     {
-                        log2.Log($"\t\t\t Comprobando Plastic Modbus");
+                        log2.Log($"{MainClass.GetTabs(3)} Comprobando Plastic Modbus");
                     }
                     else
-                        log2.Log($"\t\t\t Fichero Plastic Modbus sin atributo 'scadaview' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    //checkMO2P();
+                        log2.Log($"{MainClass.GetTabs(3)} Fichero Plastic Modbus sin atributo 'modbus2plastic' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    ChkMOD2P.check(rootPlastic);
                     break;
+                case ".padl"://addrlist
+                    if(typeApplicationPlastic == "addrlist")
+                    {
+                        log2.Log($"{MainClass.GetTabs(3)} Comprobando direcciones ");
+                    }
+                    else
+                        log2.Log($"{MainClass.GetTabs(3)} Fichero direcciones sin atributo 'addrlist' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    ChkPADL.check(rootPlastic);
+                    break;
+
+                case ".scav"://scadaview
+                    if (typeApplicationPlastic == "scadaview")
+                    {
+                        log2.Log($"{MainClass.GetTabs(3)} Comprobando vista scada ");
+                    }
+                    else
+                        log2.Log($"{MainClass.GetTabs(3)} Fichero vista scada sin atributo 'scadaview' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    //ChkSCAV.check(rootPlastic);
+                    break;
+
+                case ".pgman"://groupmanager
+                    if (typeApplicationPlastic == "groupmanager")
+                    {
+                        log2.Log($"{MainClass.GetTabs(3)} Comprobando Group Manager");
+                    }
+                    else
+                        log2.Log($"{MainClass.GetTabs(3)} Fichero Group Manager sin atributo 'groupmanager' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    //ChkPGMAN.check(rootPlastic);
+                    break;
+                case ".pe2p"://modbus2plastic
+                    if (typeApplicationPlastic == "eib2plastic")
+                    {
+                        log2.Log($"{MainClass.GetTabs(3)} Comprobando Plastic EIB");
+                    }
+                    else
+                        log2.Log($"{MainClass.GetTabs(3)} Fichero Plastic EIB sin atributo 'eib2plastic' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    //ChkEIB2P.check(rootPlastic);
+                    break;
+
                 case ".pcond"://modbus2plastic
                     if (typeApplicationPlastic == "conditional")
                     {
-                        log2.Log($"\t\t\t Comprobando Plastic Condicional");
+                        log2.Log($"{MainClass.GetTabs(3)} Comprobando Plastic Condicional");
                     }
                     else
-                        log2.Log($"\t\t\t Fichero Plastic Condicional sin atributo 'conditional' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    //checkCOND();
+                        log2.Log($"{MainClass.GetTabs(3)} Fichero Plastic Condicional sin atributo 'conditional' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    //ChkCOND.check(rootPlastic);
                     break;
                 case ".xml"://xml
                     switch(typeApplicationPlastic)
                     {
                         case "s7":
-                            log2.Log($"\t\t\t Comprobando Plastic S7");
-                            //checkXML_();
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando Plastic S7");
+                            ChkXML_S7.check(rootPlastic);
                             break;
                         case "plasticity2":
-                            log2.Log($"\t\t\t Comprobando Plasticity 2 (plasticity2)");
-                            //checkXML_();
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando Plasticity 2 (plasticity2)");
+                            //ChkXML_Plasticity2.check(rootPlastic);
                             break;
                         case "onvif":
-                            log2.Log($"\t\t\t Comprobando Plastic Eventos (onvif)");
-                            //checkXML_();
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando Plastic Eventos (onvif)");
+                            //ChkXML_ONVIF.check(rootPlastic);
                             break;
                         case "Fronius2Plastic":
-                            log2.Log($"\t\t\t Comprobando Fronius to Plastic (Fronius2Plastic)");
-                            //checkXML_Fronius2Plastic();
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando Fronius to Plastic (Fronius2Plastic)");
+                            //ChkXML_Fronius2Plastic.check(rootPlastic);
                             break;
                         case "fins2plastic":
-                            log2.Log($"\t\t\t Comprobando Fins to Plastic (fins2plastic)");
-                            //checkXML_Fins2Plastic();
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando Fins to Plastic (fins2plastic)");
+                            //ChkXML_Fins2Plastic.check(rootPlastic);
                             break;
                         case "accum":
-                            log2.Log($"\t\t\t Comprobando Direcciones acumuladores (accum)");
-                            //checkXML_ACCUM();
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando Direcciones acumuladores (accum)");
+                            //ChkXML_ACCUM.check(rootPlastic);
                             break;
                         case "lightcontrol_saved_state":
-                            log2.Log($"\t\t\t Comprobando Estado persistido de control de luces (lightcontrol_saved_state)");
-                            //checkXML_LIGHTSE();
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando Estado persistido de control de luces (lightcontrol_saved_state)");
+                            //ChkXML_LIGHTSE.check(rootPlastic);
                             break;
 
                         default:
-                            log2.Log($"\t\t\t Fichero XML sin atributo application '{typeApplicationPlastic}' reconocible '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                            log2.Log($"{MainClass.GetTabs(3)} Fichero XML sin atributo application '{typeApplicationPlastic}' reconocible '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
                             break;
                     }
 
                     break;
                 default:
-                    log2.Log($"\t\t\tNothing to do. I don't know what to do with Application {typeApplicationPlastic}! =>> '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
+                    log2.Log($"{MainClass.GetTabs(3)}Nothing to do. I don't know what to do with Application {typeApplicationPlastic}! =>> '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
                     break;
             }
 

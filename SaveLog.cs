@@ -23,21 +23,31 @@ namespace RecorreDir
         {
             _wLog.Close();
         }
-        public void Log(string logMessage, Int16 isError = 0)
+        public void Log(string logMessage, short isError = 0)
         {
             string cPrep = ":";
+            bool print = true;
             switch (isError)
             {
 
                 case 1://warning
                     cPrep = "warning : ";
                     break;
-                case 2://warning
+                case 2://Error
                     cPrep = "Error : ";
                     break;
+                case 3://jodido estoy
+                    cPrep = "Error : ";
+                    break;
+                case 4://anuncia un fichero
+                    cPrep = "";
+                    break;
+                default:
+                    if (MainClass.avoidNormalMessages == 1) print = false;
+                        break;
             }
-
-            _wLog.WriteLine($"{DateTime.Now.ToLongTimeString()} {cPrep}{logMessage}");
+            if(print ) 
+                _wLog.WriteLine($"{DateTime.Now.ToLongTimeString()} {cPrep}{logMessage}");
 
         }
     }

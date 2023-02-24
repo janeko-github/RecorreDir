@@ -1,0 +1,115 @@
+﻿
+<plastic application="project" name="PY-1134_Estadio_Monte_Romero">
+    <file name="scada.scag" />
+    <file name="main.pgman" />
+    <file name="modbus.mod2p" />
+    <file name="controller.pctrl" />
+    <file name="graph.png" />
+    <file name="PY-Boton_Horario.png" />
+    <file name="telemetria.scav" />
+    <file name="calderacd.scav" />
+    <file name="calderacd_config.scav" />
+    <file name="horarios.scav" />
+    <file name="analizador.scav" />
+    <file name="button_paro_pressed.png" />
+    <file name="Logo_Region.jpg" />
+    <file name="bomba_girando_azul_verde.gif" />
+</plastic>
+<plastic application="controller"> .pctrl
+    httpmonitor ip="all" port="8091" />
+    <httpcontrol ip="all" port="default" />
+    <httpplasticax ip="all" port="default" />
+    <parameters interrogation_ms="100" log_interrogation="0" log_sets="0" log_incoming="0" log_separate_security_log="0" datalog_enabled="1" datalog_filter="0" datalog_mininterval="0" expiration_seconds="600" limit_datalog_days="0" hide_module_control="0" system_password="" default_module="" reload_files="False" />
+    <module name="Polimer" runonstart="1" controladdress="" controlvaluemin="" controlvaluemax="" arg1="82.223.70.33" arg2="" arg3="" inhibit_manual="False" />
+    <module name="Scada" runonstart="1" controladdress="" controlvaluemin="" controlvaluemax="" arg1="" arg2="" arg3="" inhibit_manual="False">
+        <input file="telemetria.scav" />
+            <input file="calderacd.scav" />
+            <input file="calderacd_config.scav" />
+            <input file="analizador.scav" />
+            <input file="horarios.scav" />
+            <input file="scada.scag" />
+    </module>
+    <module name="Plasticity" runonstart="1" controladdress="" controlvaluemin="" controlvaluemax="" arg1="" arg2="" arg3="" inhibit_manual="False" />
+    <module name="SimpleView" runonstart="1" controladdress="" controlvaluemin="" controlvaluemax="" arg1="" arg2="" arg3="" inhibit_manual="False" />
+    <source ip="loopback" port="2501" address_prefix="">
+            <folder file="direcciones.padl" path="ModBus" />
+    </source>
+    <source ip="loopback" port="2003" address_prefix="">
+            <folder file="direcciones.padl" path="LOGO" />
+    </source>
+    
+<plastic application="scadaglobal"> .scag
+  <configuration title="CF_Los_Garres" link_scheduler="1" use_pin="0" pin_interval="120000" />
+</plastic>
+
+<plastic application="Modbus2Plastic"> .mod2p
+    <listen ip="all" port="2002" />
+    <modbus ip="*" port="0" serial="/dev/ttyS2" />
+</plastic>
+
+<plastic application="s7"> .xml
+  <s7 ip="192.168.1.3" slot="1" rack="1" type="direct" >
+    <listen ip="all" port="2003" />
+  </s7>
+</plastic>
+
+<plastic application="addrlist"> .padl debe haber un folder
+    <folder name="ModBus" display_name="" flag_scheduler="0" expiration_seconds=""> El name es el path definido en el controller <folder file" path= >
+        <address id="101" address="1,103,2,1" description="Analizador de Red. Tension R" display_name="" export_name="" physicalvaluetype="Int32BitReverse" valuetype="Real" flag_interrogate="1" flag_scheduler="0" flag_interrogate_on_write="0" flag_trend_log="0" bac_state_text="" units="NO_UNITS" trend_log_sample_time="300" factor="0.1" sumando="0" manualoverridetime="0" acoffset="" fict="0" persist="0" datalog="0" transform="" transform_arg="" changed="" changed_arg_1="" changed_arg_2="" log_min_change="100" rt_image_policy="" manual_inhibit_wait="0" invert_bytes_on_write="0" bac_object_type="Automatic" />
+        <address id="118" address="1,103,2,55" description="Analizador de Red. Energia Reactiva" display_name="" export_name="" physicalvaluetype="Int32BitReverse" valuetype="Real" flag_interrogate="1" flag_scheduler="0" flag_interrogate_on_write="0" flag_trend_log="0" bac_state_text="" units="NO_UNITS" trend_log_sample_time="300" factor="0.1" sumando="0" manualoverridetime="0" acoffset="" fict="0" persist="0" datalog="0" transform="" transform_arg="" changed="" changed_arg_1="" changed_arg_2="" log_min_change="100" rt_image_policy="" manual_inhibit_wait="0" invert_bytes_on_write="0" bac_object_type="Automatic" />
+    </folder>
+    <folder name="LOGO" display_name="" flag_scheduler="0" expiration_seconds="">
+        <address id="1" address="DB1.DBX0.1" description="Alarma bombas" display_name="" export_name="" physicalvaluetype="Int1Bit" valuetype="Integer" flag_interrogate="1" flag_scheduler="0" flag_interrogate_on_write="0" flag_trend_log="0" bac_state_text="" units="NO_UNITS" trend_log_sample_time="0" factor="1" sumando="0" manualoverridetime="0" acoffset="" fict="0" persist="0" datalog="0" transform="" transform_arg="" changed="" changed_arg_1="" changed_arg_2="" log_min_change="0" rt_image_policy="" manual_inhibit_wait="0" invert_bytes_on_write="0" bac_object_type="Automatic" />
+        <address id="2" address="DB1.DBX0.2" description="Auto/Manual" display_name="" export_name="" physicalvaluetype="Int1Bit" valuetype="Integer" flag_interrogate="1" flag_scheduler="0" flag_interrogate_on_write="0" flag_trend_log="0" bac_state_text="" units="NO_UNITS" trend_log_sample_time="0" factor="1" sumando="0" manualoverridetime="0" acoffset="" fict="0" persist="1" datalog="0" transform="" transform_arg="" changed="" changed_arg_1="" changed_arg_2="" log_min_change="0" rt_image_policy="" manual_inhibit_wait="0" invert_bytes_on_write="0" bac_object_type="Automatic" />
+    </folder>
+
+        
+<plastic application="scadaview"> .scav
+<view width="1024" height="660" name="Analizador" description="Analizador" background_image="principal.png" show_home="0">
+    <label layer="0" x="300" y="30" width="468" height="30" name="Object6" hint="" group="" read_address="" write_address="" read_symbolic="" write_symbolic="" text="ESTADIO MONTE ROMERO" value_translation="" font_name="Arial" font_size="24" font_style="BI" color="FF000000" mostrar_marco="0" padding_marco="0" color_borde="0" color_fondo="0" factor="" decimal_places="" value_transformation="" />
+    <image image="Volver.png" value_translation="" url="" view="telemetria.scav" view_popup="0" view_params="" graph="" write_value="" alarm_address="" alarm_translation="" popup_empotrado="0" popup_empotrado_x="0" popup_empotrado_y="0" script_action="" script_arg="" set_manual="0" layer="0" x="20" y="610" width="70" height="30" name="Object49" hint="" group="" read_address="" write_address="" read_symbolic="" write_symbolic="" />
+    <textinput layer="2" x="320" y="170" width="100" height="30" name="Object5" hint="" group="" read_address="/direcciones/#101" write_address="" read_symbolic="" write_symbolic="" text="" text_left="" text_right="V" font_name="Arial" font_size="12" font_style="B" color="FF000000" factor="" decimal_places="1" />
+<view width="1024" height="660" name="Pantalla Inicial" description="Pantalla Inicial" background_image="principal.png" show_home="1">
+    <label layer="0" x="390" y="30" width="260" height="30" name="Object6" hint="" read_address="" write_address="" read_symbolic="" write_symbolic="" text="TELEGESTIÓN" value_translation="" font_name="Arial" font_size="24" font_style="BI" color="FF000000" mostrar_marco="0" padding_marco="0" color_borde="0" color_fondo="0" factor="" decimal_places="" />
+    <image image="PY-Boton_Caldera.png" value_translation="" url="" view="Caldera.scav" view_popup="0" view_params="" graph="" write_value="" alarm_address="" alarm_translation="" layer="0" x="140" y="270" width="220" height="30" name="Object72" hint="" read_address="" write_address="" read_symbolic="" write_symbolic="" />
+     <textinput layer="0" x="320" y="290" width="100" height="30" name="Object9" hint="" read_address="/direcciones/#2006" write_address="" read_symbolic="" write_symbolic="" text="" text_left="" text_right="" font_name="Arial" font_size="12" font_style="" color="FF000000" factor="" decimal_places="2" />
+
+
+
+<plastic application="groupmanager"> .pgman
+    <httpmonitor ip="all" port="8090" />
+    <master ip="---" port="0" />
+    <master2 ip="---" port="0" />
+    <master3 ip="---" port="0" />
+    <slave ip="---" port="0" />
+    <parameters dias_comprimir="0" dias_borrar="3" time_sync="1" time_server_1="" time_server_2="" time_server_3="" time_server_4="" publish_backup_status="0" backup_algorithm="BasicMasterSlave" launch_delay="0" />
+    <filesync enabled="0" />
+    <group name="grupo1" launch_when="Active">
+        <launch id="controler-99876472" module="Plastic.Controller" username="" password="" respawn="1" respawn_time="0" redirect="0" noplasticargs="0" extra_arguments="" explicit_file="" ip="" log_watch_minutes="0">
+            <input file="controller.pctrl" />
+            <input file="direcciones.padl" />
+            </launch>
+            <launch id="S7" module="Plastic.S72Plastic" username="" password="" respawn="1" respawn_time="0" redirect="0" noplasticargs="0" extra_arguments="" explicit_file="" ip="" log_watch_minutes="0">
+                <input file="s7.xml" />
+            </launch>
+            <launch id="modbus" module="Plastic.ModBus2Plastic" username="" password="" respawn="1" respawn_time="0" redirect="0" noplasticargs="0" extra_arguments="" explicit_file="" ip="" log_watch_minutes="0">
+                <input file="modbus.mod2p" />
+            </launch>
+    </group>
+</plastic>
+
+
+
+
+<plastic application="plasticity2" description="" notes="" state="ACTIVE"> .xml
+  <block block_description="SCHEDULER" x="-114" y="5" name="Horario_Produccion" label="Horario_Produccion" ident="1" width="218" height="64">
+    <config_var name="SCHEDNAME" val="Horario_Produccion" />
+    <config_var name="SCHEDCODE" val="Horario_Produccion" />
+  </block>
+  <block block_description="DATAPOINT" x="177" y="4" name="Valor Horario" label="Valor Horario" ident="2" width="152" height="68">
+    <config_var name="DATAPOINT" val="/direcciones/#3" />
+    <config_var name="WRITEINTERVAL" val="" />
+    <config_var name="REWRITEINTERVAL" val="60000" />
+  </block>
+  <link origin="1" destination="2" output="OUT_0" parameter="IN_0" /> múltiples links
+</plastic>
