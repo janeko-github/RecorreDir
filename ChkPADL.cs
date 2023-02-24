@@ -53,9 +53,9 @@ namespace RecorreDir
             short nodeCount = 0;
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "name", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*");
             MainClass.Check_Attribute(node: node, attrb: "display_name", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node, attrb: "flag_scheduler", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node, attrb: "flag_scheduler", required: true, nTabs: numtabs, defaultValue: "0");
             MainClass.Check_Attribute(node: node, attrb: "expiration_seconds", required: true, nTabs: numtabs);
             if (node.HasChildNodes)
             {
@@ -71,45 +71,47 @@ namespace RecorreDir
                         address = aListen.Attributes.GetNamedItem("address").Value;
                         if (ids.Contains(id))
                         {
-                            MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} id {id} repetido ", 2);
+                            MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {aListen.Name} id {id} repetido ", 2);
                         }
                         else
                             ids.Add(id);
                         if (addresses.Contains(address))
                         {
-                            MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} address {address} repetido ", 2);
+                            MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {aListen.Name} address {address} repetido ", 2);
                         }
                         else
                             addresses.Add(address);
-                        MainClass.Check_Attribute(node: node, attrb: "id", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "address", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "display_name", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "export_name", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "physicalvaluetype", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "valuetype", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "flag_interrogate", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "flag_scheduler", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "flag_interrogate_on_write", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "flag_trend_log", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "bac_state_text", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "units", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "trend_log_sample_time", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "factor", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "sumando", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "manualoverridetime", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "acoffset", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "fict", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "persist", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "datalog", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "transform", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "transform_arg", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "changed", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "changed_arg_1", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "log_min_changechanged_arg_2", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "rt_image_policy", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "manual_inhibit_wait", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "invert_bytes_on_write", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "bac_object_type", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "id"               , required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aListen, attrb: "address"          , required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aListen, attrb: "description"      , required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aListen, attrb: "display_name"     , required: false, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aListen, attrb: "export_name", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "physicalvaluetype", required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aListen, attrb: "valuetype", required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aListen, attrb: "flag_interrogate", required: true, nTabs: numtabs, defaultValue: "1");
+                        MainClass.Check_Attribute(node: aListen, attrb: "flag_scheduler", required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "flag_interrogate_on_write", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "flag_trend_log", required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "bac_state_text", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "units", required: true, nTabs: numtabs, defaultValue: "NO_UNITS");
+                        MainClass.Check_Attribute(node: aListen, attrb: "trend_log_sample_time", required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "factor", required: true, nTabs: numtabs, defaultValue: "1");
+                        MainClass.Check_Attribute(node: aListen, attrb: "sumando", required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "manualoverridetime", required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "acoffset", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "fict", required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "persist", required: true, nTabs: numtabs, defaultValue: "1");
+                        MainClass.Check_Attribute(node: aListen, attrb: "datalog", required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "transform", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "transform_arg", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "changed", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "changed_arg_1", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "changed_arg_2", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "log_min_change"       , required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "rt_image_policy"      , required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aListen, attrb: "manual_inhibit_wait"  , required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "invert_bytes_on_write", required: true, nTabs: numtabs, defaultValue: "0");
+                        MainClass.Check_Attribute(node: aListen, attrb: "bac_object_type"      , required: true, nTabs: numtabs, defaultValue: "Automatic");
 
                     }
                     else

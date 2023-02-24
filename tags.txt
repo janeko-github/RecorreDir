@@ -16,7 +16,7 @@
     <file name="bomba_girando_azul_verde.gif" />
 </plastic>
 <plastic application="controller"> .pctrl
-    httpmonitor ip="all" port="8091" />
+    <httpmonitor ip="all" port="8091" />
     <httpcontrol ip="all" port="default" />
     <httpplasticax ip="all" port="default" />
     <parameters interrogation_ms="100" log_interrogation="0" log_sets="0" log_incoming="0" log_separate_security_log="0" datalog_enabled="1" datalog_filter="0" datalog_mininterval="0" expiration_seconds="600" limit_datalog_days="0" hide_module_control="0" system_password="" default_module="" reload_files="False" />
@@ -60,7 +60,10 @@
     </folder>
     <folder name="LOGO" display_name="" flag_scheduler="0" expiration_seconds="">
         <address id="1" address="DB1.DBX0.1" description="Alarma bombas" display_name="" export_name="" physicalvaluetype="Int1Bit" valuetype="Integer" flag_interrogate="1" flag_scheduler="0" flag_interrogate_on_write="0" flag_trend_log="0" bac_state_text="" units="NO_UNITS" trend_log_sample_time="0" factor="1" sumando="0" manualoverridetime="0" acoffset="" fict="0" persist="0" datalog="0" transform="" transform_arg="" changed="" changed_arg_1="" changed_arg_2="" log_min_change="0" rt_image_policy="" manual_inhibit_wait="0" invert_bytes_on_write="0" bac_object_type="Automatic" />
-        <address id="2" address="DB1.DBX0.2" description="Auto/Manual" display_name="" export_name="" physicalvaluetype="Int1Bit" valuetype="Integer" flag_interrogate="1" flag_scheduler="0" flag_interrogate_on_write="0" flag_trend_log="0" bac_state_text="" units="NO_UNITS" trend_log_sample_time="0" factor="1" sumando="0" manualoverridetime="0" acoffset="" fict="0" persist="1" datalog="0" transform="" transform_arg="" changed="" changed_arg_1="" changed_arg_2="" log_min_change="0" rt_image_policy="" manual_inhibit_wait="0" invert_bytes_on_write="0" bac_object_type="Automatic" />
+        <address id="2" address="DB1.DBX0.2" description="Auto/Manual" display_name="" export_name="" physicalvaluetype="Int1Bit" valuetype="Integer" flag_interrogate="1" flag_scheduler="0" 
+        flag_interrogate_on_write="0" flag_trend_log="0" bac_state_text="" units="NO_UNITS" trend_log_sample_time="0" factor="1" sumando="0" manualoverridetime="0" acoffset="" fict="0" persist="1"
+        datalog="0" transform="" transform_arg="" changed="" changed_arg_1="" changed_arg_2="" log_min_change="0" rt_image_policy="" manual_inhibit_wait="0" invert_bytes_on_write="0" 
+        bac_object_type="Automatic" />
     </folder>
 
         

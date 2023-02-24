@@ -56,6 +56,7 @@
     <Compile Include="ChkMOD2P.cs" />
     <Compile Include="ChkXML_S7.cs" />
     <Compile Include="ChkPADL.cs" />
+    <Compile Include="ChkSCAV.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

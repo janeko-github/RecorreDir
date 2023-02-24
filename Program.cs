@@ -15,12 +15,15 @@ namespace RecorreDir
         public static List<string> extensiones = new List<string>();
         public static List<string> ficherosProyecto = new List<string>();
         internal static string cPath;
+        internal static short nCol;
+        internal static short nLin;
         public static short avoidNormalMessages;
         public static void Main(string[] args)
         {
             rootdir = Directory.GetCurrentDirectory();
             if (args.Length == 0)
             {
+                rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
                 rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
                 //rootdir = "/home/janeko/workspace/inst_files";
                 //Console.WriteLine("args is null");
@@ -50,7 +53,9 @@ namespace RecorreDir
             avoidNormalMessages = 1;
             //wLog = File.CreateText(rootdir + "/BuscarDirectorios.log");
             Console.Write("Inicio proceso\n");
-            SearchDirectory(rootdir, extension_list: extensiones);
+            nCol = 0;
+            nLin = 2;
+        SearchDirectory(rootdir, extension_list: extensiones);
         
             log2.CloseLog();
             Console.Write("\n");
@@ -62,31 +67,41 @@ namespace RecorreDir
         {
             return new String('\t', numtabs);
         }
-        public static bool Check_Attribute(XmlNode node, string attrb, bool required = false, short nTabs=1,string defaultValue="")
+        public static string Check_Attribute(XmlNode node, string attrb, bool required = false, short nTabs=1,string defaultValue="")
         {
+            string tagName = node.Name;
+            /*if (node.Attributes.GetNamedItem("name") != null)
+                tagName += "." + node.Attributes.GetNamedItem("name");*/
             if (node.Attributes.GetNamedItem(attrb) == null)
             {
+
                 if (required)
                 {
-                    log2.Log($"{MainClass.GetTabs(nTabs)} el atributo {attrb} No está definido ", 2);
-                    return false;
+                    log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No está definido en el tag '{tagName}'. Por defecto podría ser '{defaultValue}'", 2);
+                    return null;
                 }
                 else
-                    return true;
+                    return "";
             }
             string value = node.Attributes.GetNamedItem(attrb).Value;
             if (value != "")
-                log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} = {value} ");
+            {
+                if ((defaultValue != "") && (value != defaultValue) && required)
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' = '{value}' ", 1);
+                else log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' = '{value}' ");
+            }
             else
-               if (required)
+            {
+                if (required)
                 {
-                    if((defaultValue != "") && (value == ""))
-                        log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} vacia ", 2);
-                    return false;
+                    if ((defaultValue != "") && (value == ""))
+                        log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' vacia ", 2);
+                    return value;
                 }
                 else
-                    log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} No Necesario ");
-            return true;
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No Necesario en el tag '{tagName}' ");
+            }
+            return value;
 
         }
         public static bool Check_File(XmlNode node, string attrb, bool required = true, short nTabs=1)
@@ -105,17 +120,18 @@ namespace RecorreDir
             if (value != "")
             {
 
-                string fileFullName = $"{cPath}/{value}";
-                if (!File.Exists(fileFullName))
+                string fileRequired = $"{ Path.GetFullPath(cPath) }/{ value}";
+
+                if (!File.Exists(fileRequired))
                 {
-                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe el fichero {value} {fileFullName}", 2);
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe el fichero '{value}' '{fileRequired}' '{Path.GetFullPath(cPath)}/{value}'", 2);
                     return false;
                 }
                 else
                     log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} = {value} ");
                 if (MainClass.ficherosProyecto.Contains(value))
                 {
-                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe en el Proyecto el fichero {value}  {fileFullName}", 2);
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe en el Proyecto el fichero {value}  {fileRequired}", 2);
                 };
             }
 
@@ -148,16 +164,31 @@ namespace RecorreDir
         {
 
             DirectoryInfo dir_info = new DirectoryInfo(rootdir);
-            if (dir_info.Name.StartsWith("998"))
+            if (dir_info.Name.StartsWith("998") || (dir_info.Name == "data"))
             {
 
+                Console.SetCursorPosition(nCol,nLin);
+                if (nCol == 0)
+                    Console.Write("{0,3:D3} ", nLin - 1);
+                else
+                    Console.SetCursorPosition(nCol+4, nLin);
+                Console.Write("d", nLin - 1);
+                nCol++;
+                if (nCol == 50)
+                {
+                    nCol = 0;
+                    nLin++;
+                }
 
-                Console.Write("d");
 
-                string cPath = dir_info.FullName + "/data";
+                //Console.WriteLine(rootdir + new String(' ', 200));
+                cPath = rootdir;
+                if (dir_info.Name != "data")
+                    cPath = rootdir + "/data";
                 if (Directory.Exists(cPath))
                 {
                     DirectoryInfo dir_data = new DirectoryInfo(cPath);
+
                     bool projectExist = false;
                     foreach (FileInfo file_info in dir_data.GetFiles())
                     {
@@ -327,7 +358,7 @@ namespace RecorreDir
             }
             string typeApplicationPlastic = rootPlastic.Attributes.GetNamedItem("application").InnerText;
 
-            cPath = Path.GetFullPath(fileFullName);
+            //cPath = Path.GetFullPath(fileFullName);
             switch (Path.GetExtension(fileFullName))
             {
                 case ".pctrl"://modbus2plastic
@@ -374,7 +405,7 @@ namespace RecorreDir
                     }
                     else
                         log2.Log($"{MainClass.GetTabs(3)} Fichero vista scada sin atributo 'scadaview' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
-                    //ChkSCAV.check(rootPlastic);
+                    ChkSCAV.check(rootPlastic);
                     break;
 
                 case ".pgman"://groupmanager

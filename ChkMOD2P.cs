@@ -43,17 +43,17 @@ namespace RecorreDir
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "ass");
+            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "2002");
             numtabs--;
         }
         internal static void Check_Modbus(XmlNode node)
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node, attrb: "serial", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "*");
+            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "0");
+            MainClass.Check_Attribute(node: node, attrb: "serial", required: true, nTabs: numtabs, defaultValue: "/dev/ttyS");
             numtabs--;
         }
     }

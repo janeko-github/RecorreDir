@@ -9,14 +9,14 @@ namespace RecorreDir
         public Save2Log(string fileLog )
         {
             _wLog = File.CreateText(fileLog);
-            _wLog.WriteLine("=================================================\n");
+            _wLog.WriteLine("==================================================================================================");
+            _wLog.WriteLine($"Fecha   : {DateTime.Now.ToLongDateString()} ");
             _wLog.WriteLine($"OS      : {Environment.OSVersion.ToString()} ");
             _wLog.WriteLine($"Máquina : {Environment.MachineName}");
             _wLog.WriteLine($"Usuario : {Environment.UserName}");
             //_wLog.WriteLine($"Directorio sistema : {Environment.SystemDirectory}");
             _wLog.WriteLine($"Directorio Analizado : {Path.GetDirectoryName(fileLog)}");
-
-            _wLog.WriteLine("=================================================\n");
+            _wLog.WriteLine("==================================================================================================\n");
 
         }
         public void CloseLog()
@@ -44,10 +44,13 @@ namespace RecorreDir
                     break;
                 default:
                     if (MainClass.avoidNormalMessages == 1) print = false;
-                        break;
+                    break;
             }
-            if(print ) 
+            if (print) { 
                 _wLog.WriteLine($"{DateTime.Now.ToLongTimeString()} {cPrep}{logMessage}");
+                _wLog.Flush();
+
+            }
 
         }
     }

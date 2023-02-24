@@ -78,8 +78,8 @@ namespace RecorreDir
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node,attrb: "ip", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node:node, attrb: "port", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node,attrb: "ip", required: true, nTabs: numtabs,defaultValue: "all");
+            MainClass.Check_Attribute(node:node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "8091");
             numtabs--;
 
         }
@@ -87,35 +87,35 @@ namespace RecorreDir
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "all");
+            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "default");
             numtabs--;
         }
         internal static void Check_httpplasticax(XmlNode node)
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "all");
+            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "default");
             numtabs--;
         }
         internal static void Check_parameters(XmlNode node)
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node,attrb: "interrogation_ms", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "log_interrogation", nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "log_incoming", nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "log_separate_security_log", nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "datalog_enabled", nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "datalog_filter", nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "datalog_mininterval", nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "expiration_seconds", nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "limit_datalog_days", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "hide_module_control", nTabs: numtabs);
+            MainClass.Check_Attribute(node: node,attrb: "interrogation_ms", required: true, nTabs: numtabs, defaultValue: "100");
+            MainClass.Check_Attribute(node: node,attrb: "log_interrogation", nTabs: numtabs, defaultValue: "0");
+            MainClass.Check_Attribute(node: node,attrb: "log_incoming", nTabs: numtabs, defaultValue: "0");
+            MainClass.Check_Attribute(node: node,attrb: "log_separate_security_log", nTabs: numtabs, defaultValue: "0");
+            MainClass.Check_Attribute(node: node,attrb: "datalog_enabled", nTabs: numtabs, defaultValue: "1");
+            MainClass.Check_Attribute(node: node,attrb: "datalog_filter", nTabs: numtabs, defaultValue: "0");
+            MainClass.Check_Attribute(node: node,attrb: "datalog_mininterval", nTabs: numtabs, defaultValue: "0");
+            MainClass.Check_Attribute(node: node,attrb: "expiration_seconds", nTabs: numtabs, defaultValue: "600");
+            MainClass.Check_Attribute(node: node,attrb: "limit_datalog_days", required: true, nTabs: numtabs, defaultValue: "0");
+            MainClass.Check_Attribute(node: node,attrb: "hide_module_control", nTabs: numtabs, defaultValue: "0");
             MainClass.Check_Attribute(node: node,attrb: "system_password", nTabs: numtabs);
             MainClass.Check_Attribute(node: node,attrb: "default_module", nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "reload_files", nTabs: numtabs);
+            MainClass.Check_Attribute(node: node,attrb: "reload_files", nTabs: numtabs, defaultValue: "False");
             numtabs--;
         }
         internal static void Check_module(XmlNode node)
@@ -123,7 +123,7 @@ namespace RecorreDir
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
             MainClass.Check_Attribute(node: node,attrb: "name", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "runonstart", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node,attrb: "runonstart", required: true, nTabs: numtabs, defaultValue: "1");
             MainClass.Check_Attribute(node: node,attrb: "controladdress", nTabs: numtabs);
             MainClass.Check_Attribute(node: node,attrb: "controlvaluemin", nTabs: numtabs);
             MainClass.Check_Attribute(node: node,attrb: "controlvaluemax", nTabs: numtabs);
@@ -132,7 +132,7 @@ namespace RecorreDir
             MainClass.Check_Attribute(node: node,attrb: "inhibit_manual", required: true, nTabs: numtabs);
             switch(node.Attributes.GetNamedItem("name").Value) {
                 case "Polimer":
-                    MainClass.Check_Attribute(node: node, attrb: "arg1", required: true,nTabs: numtabs);
+                    MainClass.Check_Attribute(node: node, attrb: "arg1", required: true,nTabs: numtabs, defaultValue: "*");
                     break;
                 case "Plasticity":
                 case "SimpleView":
@@ -169,8 +169,8 @@ namespace RecorreDir
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node,attrb: "ip", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "port", required: true, nTabs: numtabs);
+            MainClass.Check_Attribute(node: node,attrb: "ip", required: true, nTabs: numtabs, defaultValue: "loopback");
+            MainClass.Check_Attribute(node: node,attrb: "port", required: true, nTabs: numtabs, defaultValue: "*");
             MainClass.Check_Attribute(node: node,attrb: "address_prefix", nTabs: numtabs);
             if (node.HasChildNodes)
             {
@@ -180,7 +180,7 @@ namespace RecorreDir
                     if (aFolder.Name == "folder")
                     {
                         MainClass.Check_File(node: node, attrb: "file", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "path", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: node, attrb: "path", required: true, nTabs: numtabs, defaultValue: "*");
                     }
                     else
                     {
