@@ -147,7 +147,7 @@ namespace RecorreDir
                         {
                             if (file.Name == "input")
                             {
-                                MainClass.Check_File(node: node, attrb: "file", nTabs: numtabs);
+                                MainClass.Check_File(node: file, attrb: "file", nTabs: numtabs);
                             }
                             else
                             {
@@ -179,8 +179,8 @@ namespace RecorreDir
                     //TODO En el fichero file debe de existir un folder con name = al atributo path source
                     if (aFolder.Name == "folder")
                     {
-                        MainClass.Check_File(node: node, attrb: "file", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: node, attrb: "path", required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_File(node: aFolder, attrb: "file", required: true, nTabs: numtabs);
+                        MainClass.Check_Attribute(node: aFolder, attrb: "path", required: true, nTabs: numtabs, defaultValue: "*");
                     }
                     else
                     {

@@ -25,7 +25,7 @@ namespace RecorreDir
             {
                 rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
                 rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
-                //rootdir = "/home/janeko/workspace/inst_files";
+               rootdir = "/home/janeko/workspace/inst_files/99876321";
                 //Console.WriteLine("args is null");
             }
             else
@@ -110,7 +110,7 @@ namespace RecorreDir
             {
                 if (required)
                 {
-                    log2.Log($"{MainClass.GetTabs(nTabs)} {nTabs} No está definido el fichero ", 2);
+                    log2.Log($"{MainClass.GetTabs(nTabs)} {node.Name}  No está definido el atributo {attrb} {node.InnerText}", 2);
                     return false;
                 }
                 else

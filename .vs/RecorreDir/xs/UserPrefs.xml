@@ -1,16 +1,21 @@
 ﻿<Properties StartupConfiguration="{4412FCDF-7190-47DE-96F8-36E6EEC88AE7}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="chkCTRL.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ChkXML_S7.cs">
     <Files>
-      <File FileName="Program.cs" Line="80" Column="38" />
+      <File FileName="Program.cs" Line="67" Column="1" />
       <File FileName="SaveLog.cs" Line="13" Column="76" />
-      <File FileName="chkCTRL.cs" Line="86" Column="25" />
+      <File FileName="chkCTRL.cs" Line="183" Column="64" />
+      <File FileName="ChkMOD2P.cs" Line="1" Column="1" />
+      <File FileName="ChkPADL.cs" Line="1" Column="1" />
+      <File FileName="chkSCAG.cs" Line="1" Column="1" />
+      <File FileName="ChkSCAV.cs" Line="1" Column="1" />
+      <File FileName="ChkXML_S7.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="RecorreDir" expanded="True">
             <Node name="RecorreDir" expanded="True">
-              <Node name="chkCTRL.cs" selected="True" />
+              <Node name="ChkXML_S7.cs" selected="True" />
             </Node>
           </Node>
         </State>
