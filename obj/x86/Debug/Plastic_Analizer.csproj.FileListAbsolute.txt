@@ -1,0 +1,11 @@
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/bin/Debug/plastic_analizer.exe
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/bin/Debug/plastic_analizer.pdb
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/bin/Debug/System.Drawing.Common.dll
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/bin/Debug/System.Drawing.Primitives.dll
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/bin/Debug/System.Xml.ReaderWriter.dll
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/bin/Debug/ZKWeb.System.Drawing.dll
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/bin/Debug/System.Drawing.Common.xml
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/Plastic_Analizer.csproj.CoreCompileInputs.cache
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/Plastic_Analizer.csproj.CopyComplete
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/plastic_analizer.exe
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/plastic_analizer.pdb

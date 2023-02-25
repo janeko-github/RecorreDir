@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{4412FCDF-7190-47DE-96F8-36E6EEC88AE7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecorreDir</RootNamespace>
-    <AssemblyName>RecorreDir</AssemblyName>
+    <RootNamespace>Plastic_analizer</RootNamespace>
+    <AssemblyName>plastic_analizer</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">

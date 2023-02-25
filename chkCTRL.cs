@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace RecorreDir
+namespace Plastic_Analizer
 {
     public static class ChkCTRL
     {

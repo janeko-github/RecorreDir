@@ -1,5 +1,5 @@
 ﻿using System.Xml;
-namespace RecorreDir
+namespace Plastic_Analizer
 {
     public static class ChkXML_S7
     {

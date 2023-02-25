@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using System.Collections.Generic;
 
-namespace RecorreDir
+namespace Plastic_Analizer
 {
     public static class ChkPADL
     {

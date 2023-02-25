@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace RecorreDir
+namespace Plastic_Analizer
 {
     public class Save2Log
     {
@@ -23,31 +23,38 @@ namespace RecorreDir
         {
             _wLog.Close();
         }
+        uint howManyTabs(string s)
+        {
+            return (uint)s.Split('\t').Length - 1;
+        }
         public void Log(string logMessage, short isError = 0)
         {
             string cPrep = ":";
             bool print = true;
+            uint nTabs = howManyTabs(logMessage);
+            string cTabs = new String(' ', (int)nTabs);
+            logMessage = logMessage.Replace("\t", " ");
             switch (isError)
             {
 
                 case 1://warning
-                    cPrep = "warning : ";
+                    cPrep = $"warning : {logMessage} ";
                     break;
                 case 2://Error
-                    cPrep = "Error : ";
+                    cPrep = $"Error : {logMessage}";
                     break;
                 case 3://jodido estoy
-                    cPrep = "Error : ";
+                    cPrep = $"Fatal Error : {logMessage}";
                     break;
                 case 4://anuncia un fichero
-                    cPrep = "";
+                    cPrep = $"{logMessage}";
                     break;
                 default:
                     if (MainClass.avoidNormalMessages == 1) print = false;
                     break;
             }
             if (print) { 
-                _wLog.WriteLine($"{DateTime.Now.ToLongTimeString()} {cPrep}{logMessage}");
+                _wLog.WriteLine($"{DateTime.Now.ToLongTimeString()}{cTabs} {cPrep}");
                 _wLog.Flush();
 
             }

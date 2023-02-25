@@ -5,7 +5,7 @@ using System.Xml;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace RecorreDir
+namespace Plastic_Analizer
 {
     class MainClass
     {
@@ -24,8 +24,8 @@ namespace RecorreDir
             if (args.Length == 0)
             {
                 rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
-                rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
-               rootdir = "/home/janeko/workspace/inst_files/99876321";
+                //rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
+               //rootdir = "/home/janeko/workspace/inst_files/99876321";
                 //Console.WriteLine("args is null");
             }
             else
@@ -49,10 +49,9 @@ namespace RecorreDir
             extensiones.Add(".mod2p");
             extensiones.Add(".scav");
             extensiones.Add(".scag");
-            log2 = new Save2Log(rootdir + "/BuscarDirectorios.log");
+            log2 = new Save2Log(rootdir + "/Plastic_Análisis.log");
             avoidNormalMessages = 1;
-            //wLog = File.CreateText(rootdir + "/BuscarDirectorios.log");
-            Console.Write("Inicio proceso\n");
+            Console.Write("Inicio proceso de análisis Plastic\n");
             nCol = 0;
             nLin = 2;
         SearchDirectory(rootdir, extension_list: extensiones);
@@ -67,6 +66,19 @@ namespace RecorreDir
         {
             return new String('\t', numtabs);
         }
+        internal static string GetNodePath(XmlNode aNode)
+        {
+            string cNodePath = aNode.Name;
+            while(aNode.ParentNode.Name != "#document")
+            {
+                aNode = aNode.ParentNode;
+                if(aNode.Name == "plastic")
+                    cNodePath = $"{aNode.Name}.{aNode.Attributes.GetNamedItem("application").Value}.{cNodePath}";
+                else
+                    cNodePath = $"{aNode.Name}.{cNodePath}";
+            }
+            return cNodePath;
+        }
         public static string Check_Attribute(XmlNode node, string attrb, bool required = false, short nTabs=1,string defaultValue="")
         {
             string tagName = node.Name;
@@ -77,7 +89,7 @@ namespace RecorreDir
 
                 if (required)
                 {
-                    log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No está definido en el tag '{tagName}'. Por defecto podría ser '{defaultValue}'", 2);
+                    log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No está definido en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);
                     return null;
                 }
                 else
@@ -95,11 +107,11 @@ namespace RecorreDir
                 if (required)
                 {
                     if ((defaultValue != "") && (value == ""))
-                        log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' vacia ", 2);
+                        log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' vacia  -> {GetNodePath(node)}", 2);
                     return value;
                 }
                 else
-                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No Necesario en el tag '{tagName}' ");
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No Necesario en el tag '{tagName}' -> {GetNodePath(node)} ");
             }
             return value;
 
@@ -110,7 +122,7 @@ namespace RecorreDir
             {
                 if (required)
                 {
-                    log2.Log($"{MainClass.GetTabs(nTabs)} {node.Name}  No está definido el atributo {attrb} {node.InnerText}", 2);
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{node.Name}'  No está definido el atributo '{attrb}' -> {GetNodePath(node)}", 2);
                     return false;
                 }
                 else
@@ -124,25 +136,27 @@ namespace RecorreDir
 
                 if (!File.Exists(fileRequired))
                 {
-                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe el fichero '{value}' '{fileRequired}' '{Path.GetFullPath(cPath)}/{value}'", 2);
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe el fichero '{value}' '{fileRequired}' '{Path.GetFullPath(cPath)}/{value}'  -> {GetNodePath(node)}", 2);
                     return false;
                 }
                 else
                     log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} = {value} ");
                 if (MainClass.ficherosProyecto.Contains(value))
                 {
-                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe en el Proyecto el fichero {value}  {fileRequired}", 2);
+                    log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' No existe en el Proyecto el fichero {value}  {fileRequired} -> {GetNodePath(node)}", 2);
                 };
             }
 
             else
-                if (required)
             {
-                log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} Sin fichero por definir ", 2);
-                return false;
+                if (required)
+                {
+                    log2.Log($"{MainClass.GetTabs(nTabs)} No se a definido un fichero en el atributo {attrb} -> {GetNodePath(node)}", 2);
+                    return false;
+                }
+                else
+                    log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} Fichero No Necesario ");
             }
-            else
-                log2.Log($"{MainClass.GetTabs(nTabs)} {attrb} Fichero No Necesario ");
             return true;
 
         }

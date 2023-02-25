@@ -15,3 +15,4 @@
 /home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/RecorreDir.csproj.CopyComplete
 /home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/RecorreDir.exe
 /home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/RecorreDir.pdb
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/RecorreDir.csproj.AssemblyReference.cache

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 
-namespace RecorreDir
+namespace Plastic_Analizer
 {
     /*
      * Presupongo aplicaciones modularizadas. Cada módulo es "casi" como una aplicación. La diferencia es que una aplicación
