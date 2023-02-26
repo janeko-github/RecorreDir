@@ -9,3 +9,4 @@
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/Plastic_Analizer.csproj.CopyComplete
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/plastic_analizer.exe
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/plastic_analizer.pdb
+/home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/Plastic_Analizer.csproj.AssemblyReference.cache

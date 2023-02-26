@@ -18,14 +18,25 @@ namespace Plastic_Analizer
         internal static short nCol;
         internal static short nLin;
         public static short avoidNormalMessages;
+
+        [Flags]
+        public enum AttributeFlag : UInt16 //por si hace falta
+        {
+            NonRequired = 0,
+            Required = 1,
+            Unique = 2,
+            MustHaveValue = 4,
+            ExactDefaultValue = 8
+        }
+
         public static void Main(string[] args)
         {
             rootdir = Directory.GetCurrentDirectory();
             if (args.Length == 0)
             {
-                rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
+                //rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
                 //rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
-               //rootdir = "/home/janeko/workspace/inst_files/99876321";
+                rootdir = "/home/janeko/workspace/inst_files/99876321";
                 //Console.WriteLine("args is null");
             }
             else
@@ -54,39 +65,42 @@ namespace Plastic_Analizer
             Console.Write("Inicio proceso de análisis Plastic\n");
             nCol = 0;
             nLin = 2;
-        SearchDirectory(rootdir, extension_list: extensiones);
-        
+            SearchDirectory(rootdir, extension_list: extensiones);
+
             log2.CloseLog();
             Console.Write("\n");
             Console.WriteLine("Finalizado proceso.");
 
         }
         #region Útiles
-        public static string GetTabs(short numtabs=1)
+        public static string GetTabs(short numtabs = 1)
         {
             return new String('\t', numtabs);
         }
         internal static string GetNodePath(XmlNode aNode)
         {
             string cNodePath = aNode.Name;
-            while(aNode.ParentNode.Name != "#document")
+            while (aNode.ParentNode.Name != "#document")
             {
                 aNode = aNode.ParentNode;
-                if(aNode.Name == "plastic")
+                if (aNode.Name == "plastic")
                     cNodePath = $"{aNode.Name}.{aNode.Attributes.GetNamedItem("application").Value}.{cNodePath}";
                 else
                     cNodePath = $"{aNode.Name}.{cNodePath}";
             }
             return cNodePath;
         }
-        public static string Check_Attribute(XmlNode node, string attrb, bool required = false, short nTabs=1,string defaultValue="")
+        public static string Check_Attribute(XmlNode node, string attrb, bool required = false, short nTabs = 1, string defaultValue = "", AttributeFlag flags = AttributeFlag.NonRequired)
         {
             string tagName = node.Name;
             /*if (node.Attributes.GetNamedItem("name") != null)
                 tagName += "." + node.Attributes.GetNamedItem("name");*/
             if (node.Attributes.GetNamedItem(attrb) == null)
             {
-
+                if(flags.HasFlag(AttributeFlag.Required))
+                {
+                    //Seria un milagro porque no lo estoy usando :-))
+                }
                 if (required)
                 {
                     log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No está definido en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);

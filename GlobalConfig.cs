@@ -21,17 +21,17 @@ namespace Plastic_Analizer
         /*
          * Define los atributos un Tag de qué tipo deben de ser
          */
-        public enum TypeOfAttribute
+        public enum TypeOfAttribute : short
         {
-            Undefined,
-            NumericInt,
-            NumericFloat,
-            Bool,
-            IP,
-            Port,
-            File,
-            String,
-            Address
+            Undefined = 0,
+            NumericInt = 1,
+            NumericFloat = 2,
+            Bool = 4,
+            IP = 8,
+            Port = 16,
+            File = 32,
+            String = 64,
+            Address = 128
         }
 
         public struct Atributo
