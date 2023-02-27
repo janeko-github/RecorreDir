@@ -50,9 +50,9 @@ namespace Plastic_Analizer
             short nodeCount = 0;
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "width", required: true, nTabs: numtabs, defaultValue: "*");
-            MainClass.Check_Attribute(node: node, attrb: "height", required: true, nTabs: numtabs, defaultValue: "*");
-            MainClass.Check_Attribute(node: node, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*");
+            MainClass.Check_Attribute(node: node, attrb: "width", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "height", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             MainClass.Check_Attribute(node: node, attrb: "description", required: true, nTabs: numtabs, defaultValue: "*");
             MainClass.Check_Attribute(node: node, attrb: "show_home", required: true, nTabs: numtabs, defaultValue: "0");
             MainClass.Check_File(node: node, attrb: "background_image", required: true, nTabs: numtabs);
@@ -70,12 +70,12 @@ namespace Plastic_Analizer
 <label layer="0" x="300" y="30" width="468" height="30" name="Object6" hint="" group="" read_address="" write_address="" read_symbolic="" write_symbolic="" text="ESTADIO MONTE ROMERO" value_translation="" 
 font_name="Arial" font_size="24" font_style="BI" color="FF000000" mostrar_marco="0" padding_marco="0" color_borde="0" color_fondo="0" factor="" decimal_places="" value_transformation="" />
                              * */
-                            MainClass.Check_Attribute(node: innerNode, attrb: "layer", required: true, nTabs: numtabs, defaultValue: "*");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "x", required: true, nTabs: numtabs, defaultValue: "0");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "y", required: true, nTabs: numtabs, defaultValue: "30");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "width", required: true, nTabs: numtabs, defaultValue: "468");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "height", required: true, nTabs: numtabs, defaultValue: "30");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "layer", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "x", required: true, nTabs: numtabs, defaultValue: "0", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "y", required: true, nTabs: numtabs, defaultValue: "30", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "width", required: true, nTabs: numtabs, defaultValue: "468", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "height", required: true, nTabs: numtabs, defaultValue: "30", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                             MainClass.Check_Attribute(node: innerNode, attrb: "hint", required: true, nTabs: numtabs );
                             MainClass.Check_Attribute(node: innerNode, attrb: "group", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "read_address", required: true, nTabs: numtabs);
@@ -84,8 +84,8 @@ font_name="Arial" font_size="24" font_style="BI" color="FF000000" mostrar_marco=
                             MainClass.Check_Attribute(node: innerNode, attrb: "write_symbolic", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "text", required: true, nTabs: numtabs, defaultValue: "");
                             MainClass.Check_Attribute(node: innerNode, attrb: "value_translation", required: true, nTabs: numtabs, defaultValue: "");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "font_name", required: true, nTabs: numtabs, defaultValue: "Arial");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "font_size", required: true, nTabs: numtabs, defaultValue: "24");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "font_name", required: true, nTabs: numtabs, defaultValue: "Arial", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "font_size", required: true, nTabs: numtabs, defaultValue: "24", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                             MainClass.Check_Attribute(node: innerNode, attrb: "font_style", required: true, nTabs: numtabs, defaultValue: "BI");
                             MainClass.Check_Attribute(node: innerNode, attrb: "color", required: true, nTabs: numtabs, defaultValue: "FF000000");
                             MainClass.Check_Attribute(node: innerNode, attrb: "mostrar_marco", required: true, nTabs: numtabs, defaultValue: "0");
@@ -121,11 +121,11 @@ read_symbolic="" write_symbolic="" />
                             MainClass.Check_Attribute(node: innerNode, attrb: "script_arg", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "set_manual", required: true, nTabs: numtabs, defaultValue: "0");
                             MainClass.Check_Attribute(node: innerNode, attrb: "layer", required: true, nTabs: numtabs, defaultValue: "0");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "x", required: true, nTabs: numtabs, defaultValue: "20");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "y", required: true, nTabs: numtabs, defaultValue: "610");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "width", required: false, nTabs: numtabs, defaultValue: "70");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "height", required: true, nTabs: numtabs, defaultValue: "30");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "x", required: true, nTabs: numtabs, defaultValue: "20", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "y", required: true, nTabs: numtabs, defaultValue: "610", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "width", required: false, nTabs: numtabs, defaultValue: "70", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "height", required: true, nTabs: numtabs, defaultValue: "30", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                             MainClass.Check_Attribute(node: innerNode, attrb: "hint", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "group", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "read_address", required: true, nTabs: numtabs);
@@ -139,11 +139,11 @@ read_symbolic="" write_symbolic="" />
 text_right="V" font_name="Arial" font_size="12" font_style="B" color="FF000000" factor="" decimal_places="1" />
                              * */
                             MainClass.Check_Attribute(node: innerNode, attrb: "layer", required: true, nTabs: numtabs, defaultValue: "2");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "x", required: true, nTabs: numtabs, defaultValue: "10");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "y", required: true, nTabs: numtabs, defaultValue: "10");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "width", required: false, nTabs: numtabs, defaultValue: "100");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "height", required: true, nTabs: numtabs, defaultValue: "30");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "x", required: true, nTabs: numtabs, defaultValue: "10", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "y", required: true, nTabs: numtabs, defaultValue: "10", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "width", required: false, nTabs: numtabs, defaultValue: "100", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "height", required: true, nTabs: numtabs, defaultValue: "30", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                             MainClass.Check_Attribute(node: innerNode, attrb: "hint", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "group", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "read_address", required: true, nTabs: numtabs, defaultValue: "*");
@@ -152,8 +152,8 @@ text_right="V" font_name="Arial" font_size="12" font_style="B" color="FF000000" 
                             MainClass.Check_Attribute(node: innerNode, attrb: "text", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "text_left", required: true, nTabs: numtabs);
                             MainClass.Check_Attribute(node: innerNode, attrb: "text_right", required: true, nTabs: numtabs);
-                            MainClass.Check_Attribute(node: innerNode, attrb: "font_name", required: true, nTabs: numtabs, defaultValue: "Arial");
-                            MainClass.Check_Attribute(node: innerNode, attrb: "font_size", required: true, nTabs: numtabs, defaultValue: "24");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "font_name", required: true, nTabs: numtabs, defaultValue: "Arial", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "font_size", required: true, nTabs: numtabs, defaultValue: "24", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                             MainClass.Check_Attribute(node: innerNode, attrb: "font_style", required: true, nTabs: numtabs, defaultValue: "BI");
                             MainClass.Check_Attribute(node: innerNode, attrb: "color", required: true, nTabs: numtabs, defaultValue: "FF000000");
                             MainClass.Check_Attribute(node: innerNode, attrb: "factor", required: true, nTabs: numtabs);

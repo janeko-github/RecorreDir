@@ -10,3 +10,11 @@
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/plastic_analizer.exe
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/plastic_analizer.pdb
 /home/janeko/workshop/c#/buscadordirectorios/recorredir/RecorreDir/obj/x86/Debug/Plastic_Analizer.csproj.AssemblyReference.cache
+/home/janeko/workspace/csharp/RecorreDir/bin/Debug/plastic_analizer.exe
+/home/janeko/workspace/csharp/RecorreDir/bin/Debug/plastic_analizer.pdb
+/home/janeko/workspace/csharp/RecorreDir/bin/Debug/System.Drawing.Common.xml
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/Plastic_Analizer.csproj.AssemblyReference.cache
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/Plastic_Analizer.csproj.CoreCompileInputs.cache
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/Plastic_Analizer.csproj.CopyComplete
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/plastic_analizer.exe
+/home/janeko/workspace/csharp/RecorreDir/obj/x86/Debug/plastic_analizer.pdb

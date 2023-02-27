@@ -53,7 +53,7 @@ namespace Plastic_Analizer
             short nodeCount = 0;
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*");
+            MainClass.Check_Attribute(node: node, attrb: "name", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             MainClass.Check_Attribute(node: node, attrb: "display_name", required: true, nTabs: numtabs);
             MainClass.Check_Attribute(node: node, attrb: "flag_scheduler", required: true, nTabs: numtabs, defaultValue: "0");
             MainClass.Check_Attribute(node: node, attrb: "expiration_seconds", required: true, nTabs: numtabs);
@@ -81,12 +81,12 @@ namespace Plastic_Analizer
                         }
                         else
                             addresses.Add(address);
-                        MainClass.Check_Attribute(node: aListen, attrb: "id"               , required: true, nTabs: numtabs, defaultValue: "*");
-                        MainClass.Check_Attribute(node: aListen, attrb: "address"          , required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aListen, attrb: "id"               , required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                        MainClass.Check_Attribute(node: aListen, attrb: "address"          , required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                         MainClass.Check_Attribute(node: aListen, attrb: "description"      , required: true, nTabs: numtabs, defaultValue: "*");
                         MainClass.Check_Attribute(node: aListen, attrb: "display_name"     , required: false, nTabs: numtabs, defaultValue: "*");
                         MainClass.Check_Attribute(node: aListen, attrb: "export_name", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: aListen, attrb: "physicalvaluetype", required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aListen, attrb: "physicalvaluetype", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                         MainClass.Check_Attribute(node: aListen, attrb: "valuetype", required: true, nTabs: numtabs, defaultValue: "*");
                         MainClass.Check_Attribute(node: aListen, attrb: "flag_interrogate", required: true, nTabs: numtabs, defaultValue: "1");
                         MainClass.Check_Attribute(node: aListen, attrb: "flag_scheduler", required: true, nTabs: numtabs, defaultValue: "0");

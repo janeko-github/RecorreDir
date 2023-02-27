@@ -40,7 +40,7 @@ namespace Plastic_Analizer
             short nodeCount = 0;
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "*");
+            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             MainClass.Check_Attribute(node: node, attrb: "slot", required: true, nTabs: numtabs, defaultValue: "1");
             MainClass.Check_Attribute(node: node, attrb: "rack", required: true, nTabs: numtabs, defaultValue: "1");
             MainClass.Check_Attribute(node: node, attrb: "type", required: true, nTabs: numtabs, defaultValue: "direct");
@@ -52,8 +52,8 @@ namespace Plastic_Analizer
                     //TODO En el fichero file debe de existir un folder con name = al atributo path source
                     if (aListen.Name == "listen")
                     {
-                        MainClass.Check_Attribute(node: aListen, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "all");
-                        MainClass.Check_Attribute(node: aListen, attrb: "port", required: true, nTabs: numtabs, defaultValue: "2003");
+                        MainClass.Check_Attribute(node: aListen, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "all", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                        MainClass.Check_Attribute(node: aListen, attrb: "port", required: true, nTabs: numtabs, defaultValue: "2003", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                     }
                     else
                     {

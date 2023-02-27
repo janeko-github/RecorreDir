@@ -37,6 +37,7 @@ namespace Plastic_Analizer
                 //rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
                 //rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
                 rootdir = "/home/janeko/workspace/inst_files/99876321";
+                rootdir = "/home/janeko/workspace/inst_files/";
                 //Console.WriteLine("args is null");
             }
             else
@@ -90,6 +91,62 @@ namespace Plastic_Analizer
             }
             return cNodePath;
         }
+        public static string Check_Attribute2(XmlNode node, string attrb, bool required = false, short nTabs = 1, string defaultValue = "", AttributeFlag flags = AttributeFlag.NonRequired)
+        {
+            string tagName = node.Name;
+            string value = node.Attributes.GetNamedItem(attrb).Value;
+            if ((flags.HasFlag(AttributeFlag.Required)) || required)
+            {
+                if (value == null)
+                {
+                    log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No está definido en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);
+                    return null;
+                }
+               if (flags.HasFlag(AttributeFlag.MustHaveValue))
+                {
+                    if (value == "")
+                    {
+                        log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No tiene valor en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);
+                        return "";
+                    }//tiene un valor
+                    if (flags.HasFlag(AttributeFlag.ExactDefaultValue))
+                    {
+                        if (value != defaultValue)
+                        {
+                            log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' Tiene un valor distinto {value} -> {defaultValue} en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);
+                            return "";
+                        }
+                    }//El valor puede ser distinto del indicado en defaultValue
+
+                }// no tiene porqué tener valor
+            }
+            else
+            {//tag no requerido
+                if (value == null)
+                {
+                    return null;
+                }
+                if (flags.HasFlag(AttributeFlag.MustHaveValue))
+                {
+                    if (value == "")
+                    {
+                        log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No tiene valor en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);
+                        return "";
+                    }//tiene un valor
+                    if (flags.HasFlag(AttributeFlag.ExactDefaultValue))
+                    {
+                        if (value != defaultValue)
+                        {
+                            log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' Tiene un valor distinto {value} -> {defaultValue} en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);
+                            return "";
+                        }
+                    }//El valor puede ser distinto del indicado en defaultValue
+
+                }// no tiene porqué tener valor
+            }
+            return value;
+
+        }
         public static string Check_Attribute(XmlNode node, string attrb, bool required = false, short nTabs = 1, string defaultValue = "", AttributeFlag flags = AttributeFlag.NonRequired)
         {
             string tagName = node.Name;
@@ -97,11 +154,7 @@ namespace Plastic_Analizer
                 tagName += "." + node.Attributes.GetNamedItem("name");*/
             if (node.Attributes.GetNamedItem(attrb) == null)
             {
-                if(flags.HasFlag(AttributeFlag.Required))
-                {
-                    //Seria un milagro porque no lo estoy usando :-))
-                }
-                if (required)
+                if ((flags.HasFlag(AttributeFlag.Required)) || required)
                 {
                     log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No está definido en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);
                     return null;
@@ -117,7 +170,7 @@ namespace Plastic_Analizer
                 else log2.Log($"{MainClass.GetTabs(nTabs)} '{attrb}' = '{value}' ");
             }
             else
-            {
+            {//value está vacio
                 if (required)
                 {
                     if ((defaultValue != "") && (value == ""))

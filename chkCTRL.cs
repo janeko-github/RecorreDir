@@ -87,23 +87,23 @@ namespace Plastic_Analizer
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "all");
-            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "default");
+            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "all", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "default", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             numtabs--;
         }
         internal static void Check_httpplasticax(XmlNode node)
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "all");
-            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "default");
+            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "all", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "default", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             numtabs--;
         }
         internal static void Check_parameters(XmlNode node)
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node,attrb: "interrogation_ms", required: true, nTabs: numtabs, defaultValue: "100");
+            MainClass.Check_Attribute(node: node,attrb: "interrogation_ms", required: true, nTabs: numtabs, defaultValue: "100", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             MainClass.Check_Attribute(node: node,attrb: "log_interrogation", nTabs: numtabs, defaultValue: "0");
             MainClass.Check_Attribute(node: node,attrb: "log_incoming", nTabs: numtabs, defaultValue: "0");
             MainClass.Check_Attribute(node: node,attrb: "log_separate_security_log", nTabs: numtabs, defaultValue: "0");
@@ -122,8 +122,8 @@ namespace Plastic_Analizer
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node,attrb: "name", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node,attrb: "runonstart", required: true, nTabs: numtabs, defaultValue: "1");
+            MainClass.Check_Attribute(node: node,attrb: "name", required: true, nTabs: numtabs, flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node,attrb: "runonstart", required: true, nTabs: numtabs, defaultValue: "1", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             MainClass.Check_Attribute(node: node,attrb: "controladdress", nTabs: numtabs);
             MainClass.Check_Attribute(node: node,attrb: "controlvaluemin", nTabs: numtabs);
             MainClass.Check_Attribute(node: node,attrb: "controlvaluemax", nTabs: numtabs);
@@ -132,7 +132,7 @@ namespace Plastic_Analizer
             MainClass.Check_Attribute(node: node,attrb: "inhibit_manual", required: true, nTabs: numtabs);
             switch(node.Attributes.GetNamedItem("name").Value) {
                 case "Polimer":
-                    MainClass.Check_Attribute(node: node, attrb: "arg1", required: true,nTabs: numtabs, defaultValue: "*");
+                    MainClass.Check_Attribute(node: node, attrb: "arg1", required: true,nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                     break;
                 case "Plasticity":
                 case "SimpleView":
@@ -169,8 +169,8 @@ namespace Plastic_Analizer
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node,attrb: "ip", required: true, nTabs: numtabs, defaultValue: "loopback");
-            MainClass.Check_Attribute(node: node,attrb: "port", required: true, nTabs: numtabs, defaultValue: "*");
+            MainClass.Check_Attribute(node: node,attrb: "ip", required: true, nTabs: numtabs, defaultValue: "loopback", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node,attrb: "port", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             MainClass.Check_Attribute(node: node,attrb: "address_prefix", nTabs: numtabs);
             if (node.HasChildNodes)
             {
@@ -180,7 +180,7 @@ namespace Plastic_Analizer
                     if (aFolder.Name == "folder")
                     {
                         MainClass.Check_File(node: aFolder, attrb: "file", required: true, nTabs: numtabs);
-                        MainClass.Check_Attribute(node: aFolder, attrb: "path", required: true, nTabs: numtabs, defaultValue: "*");
+                        MainClass.Check_Attribute(node: aFolder, attrb: "path", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                     }
                     else
                     {
