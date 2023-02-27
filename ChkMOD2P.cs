@@ -43,17 +43,17 @@ namespace Plastic_Analizer
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "ass", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
-            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "2002", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "ip",  nTabs: numtabs, defaultValue: "ass", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "port",  nTabs: numtabs, defaultValue: "2002", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             numtabs--;
         }
         internal static void Check_Modbus(XmlNode node)
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "ip", required: true, nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
-            MainClass.Check_Attribute(node: node, attrb: "port", required: true, nTabs: numtabs, defaultValue: "0", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
-            MainClass.Check_Attribute(node: node, attrb: "serial", required: true, nTabs: numtabs, defaultValue: "/dev/ttyS", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "ip",  nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "port",  nTabs: numtabs, defaultValue: "0", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+            MainClass.Check_Attribute(node: node, attrb: "serial",  nTabs: numtabs, defaultValue: "/dev/ttyS", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
             numtabs--;
         }
     }

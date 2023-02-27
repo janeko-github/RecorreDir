@@ -38,10 +38,10 @@ namespace Plastic_Analizer
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
-            MainClass.Check_Attribute(node: node, attrb: "title", required: true, nTabs: numtabs);
-            MainClass.Check_Attribute(node: node, attrb: "link_scheduler", required: true, nTabs: numtabs, defaultValue: "1");
-            MainClass.Check_Attribute(node: node, attrb: "use_pin", required: true, nTabs: numtabs, defaultValue: "0");
-            MainClass.Check_Attribute(node: node, attrb: "pin_interval", required: true, nTabs: numtabs, defaultValue: "120000");
+            MainClass.Check_Attribute(node: node, attrb: "title",    nTabs: numtabs);
+            MainClass.Check_Attribute(node: node, attrb: "link_scheduler",  nTabs: numtabs, defaultValue: "1");
+            MainClass.Check_Attribute(node: node, attrb: "use_pin",  nTabs: numtabs, defaultValue: "0");
+            MainClass.Check_Attribute(node: node, attrb: "pin_interval",  nTabs: numtabs, defaultValue: "120000");
             numtabs--;
         }
     }

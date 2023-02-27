@@ -22,11 +22,11 @@ namespace Plastic_Analizer
         [Flags]
         public enum AttributeFlag : UInt16 //por si hace falta
         {
-            NonRequired = 0,
-            Required = 1,
-            Unique = 2,
-            MustHaveValue = 4,
-            ExactDefaultValue = 8
+            NonRequired = 1,
+            Required = 2,
+            Unique = 4,
+            MustHaveValue = 8,
+            ExactDefaultValue = 16
         }
 
         public static void Main(string[] args)
@@ -34,10 +34,10 @@ namespace Plastic_Analizer
             rootdir = Directory.GetCurrentDirectory();
             if (args.Length == 0)
             {
-                //rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
-                //rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
-                rootdir = "/home/janeko/workspace/inst_files/99876321";
-                rootdir = "/home/janeko/workspace/inst_files/";
+                rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
+                rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
+                //rootdir = "/home/janeko/workspace/inst_files/99876321";
+                //rootdir = "/home/janeko/workspace/inst_files/";
                 //Console.WriteLine("args is null");
             }
             else
@@ -91,11 +91,20 @@ namespace Plastic_Analizer
             }
             return cNodePath;
         }
-        public static string Check_Attribute2(XmlNode node, string attrb, bool required = false, short nTabs = 1, string defaultValue = "", AttributeFlag flags = AttributeFlag.NonRequired)
+        public static string Check_Attribute(XmlNode node, string attrb,  short nTabs = 1, string defaultValue = "", AttributeFlag flags = 0)
         {
-            string tagName = node.Name;
-            string value = node.Attributes.GetNamedItem(attrb).Value;
-            if ((flags.HasFlag(AttributeFlag.Required)) || required)
+            string tagName = "";
+            string value = "";
+            try
+            {
+                tagName = node.Name;
+                value = node.Attributes.GetNamedItem(attrb).Value;
+            }
+            catch
+            {
+
+            }
+            if ((flags.HasFlag(AttributeFlag.Required)))
             {
                 if (value == null)
                 {
@@ -147,7 +156,7 @@ namespace Plastic_Analizer
             return value;
 
         }
-        public static string Check_Attribute(XmlNode node, string attrb, bool required = false, short nTabs = 1, string defaultValue = "", AttributeFlag flags = AttributeFlag.NonRequired)
+        public static string Check_Attribute2(XmlNode node, string attrb, bool required = false, short nTabs = 1, string defaultValue = "", AttributeFlag flags = AttributeFlag.NonRequired)
         {
             string tagName = node.Name;
             /*if (node.Attributes.GetNamedItem("name") != null)
@@ -303,8 +312,9 @@ namespace Plastic_Analizer
                     SearchDirectory(subdir_info.FullName, extension_list);
                 }
             }
-            catch
+            catch (ArgumentException e)
             {
+                log2.Log($"Exception {e.Message}", 1);
             }
 
         }
@@ -497,6 +507,38 @@ namespace Plastic_Analizer
                     else
                         log2.Log($"{MainClass.GetTabs(3)} Fichero Group Manager sin atributo 'groupmanager' '{Path.GetFileName(fileFullName)}' en '{Path.GetFullPath(fileFullName)}' ", 2);
                     //ChkPGMAN.check(rootPlastic);
+                    /*
+                     * <plastic application="groupmanager">
+  <httpmonitor ip="all" port="8081" />
+  <master ip="" port="default" />
+  <master2 ip="" port="default" />
+  <master3 ip="" port="default" />
+  <slave ip="" port="default" />
+  <parameters dias_comprimir="0" dias_borrar="3" time_sync="0" backup_algorithm="BasicMasterSlave" launch_delay="0" />
+  <filesync enabled="0" />
+  <group name="DevlGroup" launch_when="Active">
+    <launch id="Controller-99876403" module="Plastic.Controller" username="" password="" respawn="1" respawn_time="0" redirect="0" noplasticargs="0" 
+extra_arguments="-legacy-http-server" explicit_file="" ip="" log_watch_minutes="5">
+      <input file="controller.pctrl" />
+      <input file="monitor.scav" />
+      <input file="direcciones.padl" />
+      <input file="script.pscript" />
+      <input file="popup_close.scav" />
+      <input file="monitor_cat.scav" />
+      <input file="info_camara_cat.scav" />
+      <input file="info_camara.scav" />
+    </launch>
+    <launch id="ONVIF" module="Plastic.ONVIF2Plastic" username="" password="" respawn="1" respawn_time="0" redirect="0" noplasticargs="0" extra_arguments="" 
+explicit_file="" ip="">
+      <input file="onvif.xml" />
+    </launch>
+    <launch id="IOT2k" module="Plastic.IOT2k2Plastic" username="" password="" respawn="1" respawn_time="0" redirect="0" noplasticargs="0" extra_arguments="" explicit_file="" ip="" />
+    <launch id="Netter" module="Plastic.Netter" username="" password="" respawn="1" respawn_time="0" redirect="0" noplasticargs="0" extra_arguments="" explicit_file="" ip="">
+      <input file="netter.xml" />
+    </launch>
+  </group>
+</plastic>                   
+                     * */
                     break;
                 case ".pe2p"://modbus2plastic
                     if (typeApplicationPlastic == "eib2plastic")
@@ -526,11 +568,11 @@ namespace Plastic_Analizer
                             break;
                         case "plasticity2":
                             log2.Log($"{MainClass.GetTabs(3)} Comprobando Plasticity 2 (plasticity2)");
-                            //ChkXML_Plasticity2.check(rootPlastic);
+                            ChkXML_Plasticity2.check(rootPlastic);
                             break;
                         case "onvif":
                             log2.Log($"{MainClass.GetTabs(3)} Comprobando Plastic Eventos (onvif)");
-                            //ChkXML_ONVIF.check(rootPlastic);
+                            ChkXML_ONVIF.check(rootPlastic);
                             break;
                         case "Fronius2Plastic":
                             log2.Log($"{MainClass.GetTabs(3)} Comprobando Fronius to Plastic (Fronius2Plastic)");
@@ -540,6 +582,18 @@ namespace Plastic_Analizer
                             log2.Log($"{MainClass.GetTabs(3)} Comprobando Fins to Plastic (fins2plastic)");
                             //ChkXML_Fins2Plastic.check(rootPlastic);
                             break;
+                        case "PMV2Plastic":
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando PMV2 Plastic (pmv2plastic)");
+                            //ChkXML_Pmv2Plastic.check(rootPlastic);
+                            /*
+                             * <plastic application="PMV2Plastic">
+  <listen ip="all" port="2111"/>
+  <pmv ip="192.168.1.100" port="9735"/>
+</plastic>
+
+                             * */
+                            break;
+
                         case "accum":
                             log2.Log($"{MainClass.GetTabs(3)} Comprobando Direcciones acumuladores (accum)");
                             //ChkXML_ACCUM.check(rootPlastic);
@@ -547,6 +601,20 @@ namespace Plastic_Analizer
                         case "lightcontrol_saved_state":
                             log2.Log($"{MainClass.GetTabs(3)} Comprobando Estado persistido de control de luces (lightcontrol_saved_state)");
                             //ChkXML_LIGHTSE.check(rootPlastic);
+                            break;
+                        case "scadamenu":
+                            log2.Log($"{MainClass.GetTabs(3)} Comprobando Menu (scadamenu)");
+                            /*
+                             * <plastic application="scadamenu">
+  <scadamenu color="Black" folder_color="#026963" selected_color="yellow" selected_background_color="LightSeaGreen" >
+    <entry title="Planta" link="planta.scav" hint="Plano de planta" />
+    <entry title="Telemetría Eléctrica" link="analizadores.scav" hint="Analizadores de Red" /> 
+    <entry title="Conmutación Red-Grupo" link="conmutacion_red_grupo.scav" hint="Conmutación Red-Grupo" />
+    <entry title="Sistema Protección contra Incendios" link="detalleincendios.scav" hint="Sistema Contra Incendios" />
+  </scadamenu>
+</plastic>                           
+                             * */
+                            //ChkXML_Menu.check(rootPlastic);
                             break;
 
                         default:

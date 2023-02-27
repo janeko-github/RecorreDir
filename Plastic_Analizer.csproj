@@ -57,6 +57,8 @@
     <Compile Include="ChkXML_S7.cs" />
     <Compile Include="ChkPADL.cs" />
     <Compile Include="ChkSCAV.cs" />
+    <Compile Include="ChkXML_ONVIF.cs" />
+    <Compile Include="ChkXML_Plasticity2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
