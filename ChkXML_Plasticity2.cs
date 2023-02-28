@@ -51,6 +51,16 @@ namespace Plastic_Analizer
         {
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
             numtabs++;
+            if (node.Attributes.GetNamedItem("origin") == null)
+            {
+                MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} atributo origin no existe ", 2);
+                return;
+            }
+            if (node.Attributes.GetNamedItem("destination") == null)
+            {
+                MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} atributo destination no existe ", 2);
+                return;
+            }
             string origin = node.Attributes.GetNamedItem("origin").Value;
             string destination = node.Attributes.GetNamedItem("destination").Value;
             if (origins.Contains(origin))
@@ -81,6 +91,11 @@ namespace Plastic_Analizer
             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} ");
 
             numtabs++;
+            if (node.Attributes.GetNamedItem("block_description") == null)
+            {
+                MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} atributo block_description no existe ", 2);
+                return;
+            }
             string block_type = node.Attributes.GetNamedItem("block_description").Value;
             string datapoint = "";
             string val = "";
@@ -100,7 +115,18 @@ namespace Plastic_Analizer
                     nodeCount++;
                     MainClass.Check_Attribute(node: aTag, attrb: "name", nTabs: numtabs, defaultValue: "0", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                     MainClass.Check_Attribute(node: aTag, attrb: "val", nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+
+                    if (node.Attributes.GetNamedItem("name") == null)
+                    {
+                        MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {aTag.Name} name {val} no existe ", 2);
+                        continue;
+                    }
                     datapoint = node.Attributes.GetNamedItem("name").Value;
+                    if (node.Attributes.GetNamedItem("val") == null)
+                    {
+                        MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {aTag.Name} val {val} no existe ", 2);
+                        continue;
+                    }
                     val = node.Attributes.GetNamedItem("val").Value;
 
                     switch (block_type)

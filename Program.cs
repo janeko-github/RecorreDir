@@ -36,6 +36,10 @@ namespace Plastic_Analizer
             {
                 rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876515";
                 rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files";
+                //rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876314";
+                rootdir = "/media/janeko/Almacen/celofan/copiacelofan/inst_files/99876482";
+
+
                 //rootdir = "/home/janeko/workspace/inst_files/99876321";
                 //rootdir = "/home/janeko/workspace/inst_files/";
                 //Console.WriteLine("args is null");
@@ -85,7 +89,14 @@ namespace Plastic_Analizer
             {
                 aNode = aNode.ParentNode;
                 if (aNode.Name == "plastic")
-                    cNodePath = $"{aNode.Name}.{aNode.Attributes.GetNamedItem("application").Value}.{cNodePath}";
+                {
+                    if (aNode.Attributes.GetNamedItem("application") == null)
+                    {
+                        cNodePath = $"{aNode.Name}.¡¡¡¡¡¡¡¡¡Falta en Plastic AApplication!!!!!!!!.{cNodePath}";
+                        continue;
+                    } else
+                        cNodePath = $"{aNode.Name}.{aNode.Attributes.GetNamedItem("application").Value}.{cNodePath}";
+                }
                 else
                     cNodePath = $"{aNode.Name}.{cNodePath}";
             }
@@ -95,15 +106,19 @@ namespace Plastic_Analizer
         {
             string tagName = "";
             string value = "";
-            try
+            if (node.Attributes.GetNamedItem(attrb) == null)
             {
-                tagName = node.Name;
-                value = node.Attributes.GetNamedItem(attrb).Value;
+                if ((flags.HasFlag(AttributeFlag.Required)))
+                {
+                    log2.Log($"{MainClass.GetTabs(nTabs)} el atributo '{attrb}' No está definido en el tag '{tagName}'. Por defecto podría ser '{defaultValue}' -> {GetNodePath(node)}", 2);
+                 
+                }
+                return null;
             }
-            catch
-            {
 
-            }
+            tagName = node.Name;
+            value = node.Attributes.GetNamedItem(attrb).Value;
+
             if ((flags.HasFlag(AttributeFlag.Required)))
             {
                 if (value == null)
@@ -159,8 +174,7 @@ namespace Plastic_Analizer
         public static string Check_Attribute2(XmlNode node, string attrb, bool required = false, short nTabs = 1, string defaultValue = "", AttributeFlag flags = AttributeFlag.NonRequired)
         {
             string tagName = node.Name;
-            /*if (node.Attributes.GetNamedItem("name") != null)
-                tagName += "." + node.Attributes.GetNamedItem("name");*/
+
             if (node.Attributes.GetNamedItem(attrb) == null)
             {
                 if ((flags.HasFlag(AttributeFlag.Required)) || required)

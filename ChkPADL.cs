@@ -14,7 +14,7 @@ namespace Plastic_Analizer
             numtabs = 5;
             short chkFolder = 0;
             string nameOfFolder = "";
-
+            folderNames.Clear();
             if (rootPlastic.HasChildNodes)
             {
                 foreach (XmlNode node in rootPlastic.ChildNodes)
@@ -22,7 +22,15 @@ namespace Plastic_Analizer
                     switch (node.Name)
                     {
                         case "folder":
+                            if (node.Attributes.GetNamedItem("name") == null)
+                            {
+                                MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} atributo name  no existe ", 2);
+                                continue;
+                            }
+                            ids.Clear();
+                            addresses.Clear();
                             nameOfFolder = node.Attributes.GetNamedItem("name").Value;
+
                             Check_Folder(node);
                             if (folderNames.Contains(nameOfFolder))
                             {
@@ -67,7 +75,17 @@ namespace Plastic_Analizer
                     //TODO En el fichero file debe de existir un folder con name = al atributo path source
                     if (aListen.Name == "address")
                     {
+                        if (aListen.Attributes.GetNamedItem("id") == null)
+                        {
+                            MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {aListen.Name} atributo id no existe ", 2);
+                            continue;
+                        }
                         id = aListen.Attributes.GetNamedItem("id").Value;
+                        if (aListen.Attributes.GetNamedItem("address") == null)
+                        {
+                            MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {aListen.Name} atributo address no existe ", 2);
+                            continue;
+                        }
                         address = aListen.Attributes.GetNamedItem("address").Value;
                         if (ids.Contains(id))
                         {

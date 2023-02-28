@@ -11,7 +11,7 @@ namespace Plastic_Analizer
             numtabs = 5;
             short chkView = 0;
             string nameOfView = "";
-
+            viewNames.Clear();
             if (rootPlastic.HasChildNodes)
             {
                 foreach (XmlNode viewNode in rootPlastic.ChildNodes)
@@ -19,11 +19,16 @@ namespace Plastic_Analizer
                     switch (viewNode.Name)
                     {
                         case "view":
+                            if (viewNode.Attributes.GetNamedItem("name") == null)
+                            {
+                                MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {viewNode.Name} atributo name no existe ", 2);
+                                continue;
+                            }
                             nameOfView = viewNode.Attributes.GetNamedItem("name").Value;
                             Check_View(viewNode);
                             if (viewNames.Contains(nameOfView))
                             {
-                                MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {viewNode.Name} View {nameOfView} repetido ", 2);
+                                MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {viewNode.Name} View '{nameOfView}' repetido ", 2);
                             }
                             else
                                 viewNames.Add(nameOfView);
@@ -211,6 +216,40 @@ read_symbolic="" write_symbolic="" font_name="Arial Narrow" font_size="12" font_
                             MainClass.Check_Attribute(node: innerNode, attrb: "url", nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
                             MainClass.Check_Attribute(node: innerNode, attrb: "type", nTabs: numtabs, defaultValue: "Normal", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
 
+                            break;
+                        case "button":
+                            /*
+                             *                    
+<button layer="0" x="1620" y="380" width="260" height="35" name="Object9" hint="" group="" read_address="" write_address="" read_symbolic="" write_symbolic="" text="PRODUCCIÓN" write_value="" 
+font_name="Arial" font_size="12" font_style="B" color="FF000000" view="produccion.scav" url="" view_popup="0" view_params="" graph="" popup_empotrado="0" popup_empotrado_x="0" popup_empotrado_y="0" />
+                            
+                             * */
+                            MainClass.Check_Attribute(node: innerNode, attrb: "layer", nTabs: numtabs, defaultValue: "0");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "x", nTabs: numtabs, defaultValue: "20", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "y", nTabs: numtabs, defaultValue: "610", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "width", nTabs: numtabs, defaultValue: "70", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "height", nTabs: numtabs, defaultValue: "30", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "name", nTabs: numtabs, defaultValue: "*", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "hint", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "group", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "read_address", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "write_address", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "read_symbolic", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "write_symbolic", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "text", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "write_value", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "font_name", nTabs: numtabs, defaultValue: "Arial", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "font_size", nTabs: numtabs, defaultValue: "24", flags: MainClass.AttributeFlag.Required | MainClass.AttributeFlag.MustHaveValue);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "font_style", nTabs: numtabs, defaultValue: "BI");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "color", nTabs: numtabs, defaultValue: "FF000000");
+                            MainClass.Check_File(node: innerNode, attrb: "view", nTabs: numtabs, required: false);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "url", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "view_popup", nTabs: numtabs, defaultValue: "0");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "view_params", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "graph", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "popup_empotrado", nTabs: numtabs);
+                            MainClass.Check_Attribute(node: innerNode, attrb: "popup_empotrado_x", nTabs: numtabs, defaultValue: "0");
+                            MainClass.Check_Attribute(node: innerNode, attrb: "popup_empotrado_y", nTabs: numtabs, defaultValue: "0");
                             break;
                         default:
                             MainClass.log2.Log($"{MainClass.GetTabs(numtabs)} Tag {node.Name} Existe un tag denominado {innerNode.Name} que no pertenece a un scadaview.", 1);
